@@ -28,11 +28,12 @@ CREATE TABLE IF NOT EXISTS libros (
   portada TEXT NOT NULL,
   precio float NOT NULL,
   stock INT NOT NULL,
-  titulo TEXT NOT NULL,
+  titulo TEXT UNIQUE NOT NULL,
   descripcion TEXT,
   contenido TEXT,
   paginas INT NOT NULL,
   clasificacion float NOT NULL,
+  cantidadDeClasificacion int DEFAULT 0,
   fk_categoria INT,
   fk_autor INT,
   FOREIGN KEY(fk_autor) REFERENCES usuarios(id)
@@ -50,6 +51,9 @@ CREATE TABLE IF NOT EXISTS ventas (
   fk_usuario INT,
   cantidad INT NOT NULL,
   total float NOT NULL,
+  metodoPago TEXT NOT NULL,
+  estado TEXT NOT NULL,
+  fecha DATE DEFAULT CURRENT_DATE,
   FOREIGN KEY(fk_libro) REFERENCES libros(id)
   ON DELETE SET NULL
   ON UPDATE CASCADE,
@@ -63,7 +67,12 @@ CREATE TABLE IF NOT EXISTS comentarios (
   clasificacion INT,
   contenido TEXT,
   fk_autor INT,
+  fk_libro INT,
   FOREIGN KEY(fk_autor) REFERENCES usuarios(id)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE,
+
+  FOREIGN KEY(fk_libro) REFERENCES libros(id)
   ON DELETE SET NULL
   ON UPDATE CASCADE
 );

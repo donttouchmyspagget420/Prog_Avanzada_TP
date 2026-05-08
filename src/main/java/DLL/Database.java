@@ -15,16 +15,18 @@ public class Database {
     //Conección a base de datos
     private Connection conn;
 
+    private static Database instance;
+
     //Constructora de clase(debe acceder solo en mismo package)
     protected Database() throws SQLException {
         conn = DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    protected Connection getConn() throws Exception {
-        if (conn != null) {
-            return conn;
+    protected static Database getInstanse() throws SQLException {
+        if (instance == null) {
+            instance = new Database();
         }
-        throw new Exception("No hay conexion a base de datos");
+        return instance;
     }
 
     protected ResultSet query(final String sql) throws SQLException {
