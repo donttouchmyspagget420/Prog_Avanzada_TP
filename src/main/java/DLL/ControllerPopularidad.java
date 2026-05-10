@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ControllerPopularidad {
-    public Libro[] verPopularidad(String categoria) throws SQLException {
+    public Libro[] calcularPopularidadBase(String categoria) throws SQLException {
         String sql = "SELECT * FROM " + ControllerLibro.TABLE + " WHERE categoria = ? ORDER BY clasificacion DESC LIMIT 10";
 
         String[] vals = {categoria};

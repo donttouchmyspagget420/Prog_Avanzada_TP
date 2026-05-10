@@ -1,23 +1,20 @@
 package DLL;
 
 import BLL.Cliente;
-import BLL.Libro;
-import BLL.Venta;
 import Utils.Hash;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class ControllerCliente {
     protected final static String TABLE = "usuarios";
 
-    public Cliente iniciarSeccionBase(String email, String username, String password, String pfp, String about) throws SQLException {
+    public Cliente iniciarSeccionBase(String correo, String username, String contrasena, String pfp, String sobre) throws SQLException {
         String sql = "INSERT INTO " + TABLE + " VALUES(?,?,?,?,?)";
 
-        String hash = Hash.hash(password);
+        String hash = Hash.hash(contrasena);
 
-        String[] vals = {email, username, hash, pfp, about};
+        String[] vals = {correo, username, hash, pfp, sobre};
 
         int res = Database.getInstanse().update(sql, vals);
 
@@ -25,7 +22,7 @@ public class ControllerCliente {
 
         sql = "SELECT id FROM " + TABLE + " WHERE correo = ?";
 
-        vals = new String[]{email};
+        vals = new String[]{correo};
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
@@ -34,13 +31,13 @@ public class ControllerCliente {
         }
         int id = resultSet.getInt("id");
 
-        return new Cliente(id, email, username, hash, pfp, about);
+        return new Cliente(id, correo, username, hash, pfp, sobre);
     }
 
-    public Cliente loginBase(String email, String password) throws SQLException {
+    public Cliente loginBase(String correo, String contrasena) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE correo = ?";
 
-        String[] vals = {email};
+        String[] vals = {correo};
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
@@ -48,7 +45,7 @@ public class ControllerCliente {
 
         String hash = resultSet.getString("contrasena");
 
-        if (!Hash.verificar(password, hash)) {
+        if (!Hash.verificar(contrasena, hash)) {
             return null;
         }
 
@@ -57,7 +54,7 @@ public class ControllerCliente {
         String pfp = resultSet.getString("pfp");
         String about = resultSet.getString("sobre");
 
-        return new Cliente(id, email, username, hash, pfp, about);
+        return new Cliente(id, correo, username, hash, pfp, about);
     }
 
 }

@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS libros (
   contenido TEXT,
   paginas INT NOT NULL,
   clasificacion float NOT NULL,
-  cantidadDeClasificacion int DEFAULT 0,
   fk_categoria INT,
   fk_autor INT,
   FOREIGN KEY(fk_autor) REFERENCES usuarios(id)
@@ -69,6 +68,31 @@ CREATE TABLE IF NOT EXISTS comentarios (
   fk_autor INT,
   fk_libro INT,
   FOREIGN KEY(fk_autor) REFERENCES usuarios(id)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE,
+
+  FOREIGN KEY(fk_libro) REFERENCES libros(id)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS historialLectoras (
+  fk_usuario INT,
+  fk_libro INT,
+  FOREIGN KEY(fk_usuario) REFERENCES usuarios(id)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE,
+
+  FOREIGN KEY(fk_libro) REFERENCES libros(id)
+  ON DELETE SET NULL
+  ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS clasificaciones (
+  fk_usuario INT,
+  fk_libro INT,
+  clasificacion INT,
+  FOREIGN KEY(fk_usuario) REFERENCES usuarios(id)
   ON DELETE SET NULL
   ON UPDATE CASCADE,
 
