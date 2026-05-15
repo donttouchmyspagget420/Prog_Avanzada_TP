@@ -9,12 +9,12 @@ import java.sql.SQLException;
 public class ControllerCliente {
     protected final static String TABLE = "usuarios";
 
-    public Cliente iniciarSeccionBase(String correo, String username, String contrasena, String pfp, String sobre) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + " VALUES(?,?,?,?,?)";
+    public Cliente iniciarSeccionBase(String correo, String username, String contrasena) throws SQLException {
+        String sql = "INSERT INTO " + TABLE + "(correo,username,contrasena) VALUES(?,?,?)";
 
         String hash = Hash.hash(contrasena);
 
-        String[] vals = {correo, username, hash, pfp, sobre};
+        String[] vals = {correo, username, hash};
 
         int res = Database.getInstanse().update(sql, vals);
 
@@ -31,7 +31,7 @@ public class ControllerCliente {
         }
         int id = resultSet.getInt("id");
 
-        return new Cliente(id, correo, username, hash, pfp, sobre);
+        return new Cliente(id, correo, username, hash);
     }
 
     public Cliente loginBase(String correo, String contrasena) throws SQLException {

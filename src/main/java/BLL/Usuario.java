@@ -8,13 +8,22 @@ public abstract class Usuario {
     private String pfp;
     private String sobre;
 
-    protected Usuario(int id, String correo, String username, String contrasena, String pfp, String sobre) {
+    protected Usuario(int id, String correo, String username, String contrasena) {
+        this.id = id;
+        this.correo = correo;
+        this.username = username;
+        this.contrasena = contrasena;
+        this.pfp = null;
+        this.sobre = null;
+    }
+
+    protected Usuario(int id, String correo, String username, String contrasena, String pfp, String about) {
         this.id = id;
         this.correo = correo;
         this.username = username;
         this.contrasena = contrasena;
         this.pfp = pfp;
-        this.sobre = sobre;
+        this.sobre = about;
     }
 
     public int getId() {
