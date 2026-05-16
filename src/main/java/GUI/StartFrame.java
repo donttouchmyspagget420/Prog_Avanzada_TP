@@ -6,6 +6,8 @@ import java.awt.*;
 public class StartFrame extends JFrame {
     private JPanel wrapper, btnWrapper;
     private JTextField emailField, usernameField, passwordField, repeatPasswordField;
+    private JCheckBox empleado;
+
     private boolean isLoginShown;
 
     StartFrame() {
@@ -13,6 +15,8 @@ public class StartFrame extends JFrame {
 
         wrapper = new JPanel(new GridLayout(0, 1));
         btnWrapper = new JPanel(new GridLayout(0, 2));
+
+        empleado = new JCheckBox("soy empleado", null, false);
 
         JPanel generalWrapper = new JPanel();
         JPanel nextWrapper = new JPanel(new GridLayout(0, 1));
@@ -43,6 +47,7 @@ public class StartFrame extends JFrame {
         wrapper.add(new JPanel());
         wrapper.add(emailField);
         wrapper.add(passwordField);
+        wrapper.add(empleado);
 
         nextWrapper.add(next);
 
@@ -65,18 +70,24 @@ public class StartFrame extends JFrame {
 
         wrapper.remove(usernameField);
         wrapper.remove(repeatPasswordField);
+        if (empleado == null) {
+            empleado = new JCheckBox("soy empleado", null, false);
+            wrapper.add(empleado);
+        }
 
         isLoginShown = true;
         revalidate();
     }
 
     protected void showSignUp() {
-        if (!isLoginShown) return;
+        if (!isLoginShown || empleado.isSelected()) return;
 
         usernameField = new JTextField(20);
         repeatPasswordField = new JTextField(20);
 
         wrapper.remove(passwordField);
+        wrapper.remove(empleado);
+        empleado = null;
 
         repeatPasswordField.putClientProperty("JTextField.placeholderText", "repetir la contraseña");
         usernameField.putClientProperty("JTextField.placeholderText", "nombre de usuario");
@@ -108,5 +119,9 @@ public class StartFrame extends JFrame {
 
     protected boolean getIsLoginShown() {
         return isLoginShown;
+    }
+
+    protected boolean getIsEmpleado() {
+        return empleado.isSelected();
     }
 }

@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Database {
     //Url para conectar a postgresql en puerto por defecto(5432)
-    private final static String URL = "jdbc:postgresql://localhost:5432/Prog_Avanzada_TP";
+    private final static String URL = "jdbc:postgresql://localhost:5432/prog_avanzada_tp";
 
     //Usuario de postgresql por defecto(postgres)
     private final static String USER = "postgres";
@@ -72,11 +72,11 @@ public class Database {
         if (sql.isBlank()) return false;
 
         int token = 0;
-        for (int i = 0; i < length; i++) {
-            if (sql.charAt(i) == '?') {
-                token++;
-            }
+        for (int i = 0; i < sql.length(); i++) {
+            if (sql.charAt(i) == '?') token++;
         }
+        System.out.println(sql);
+        System.out.print(token + " " + length + "\n");
 
         return token == length;
     }

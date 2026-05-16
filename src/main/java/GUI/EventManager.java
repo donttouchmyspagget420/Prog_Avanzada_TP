@@ -1,6 +1,7 @@
 package GUI;
 
 import BLL.Cliente;
+import BLL.Empleado;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,10 +24,13 @@ public class EventManager implements ActionListener {
             case "Logearse" -> startFrame.showLogin();
             case "Registrarse" -> startFrame.showSignUp();
             case "próximo" -> {
-                if (startFrame.getIsLoginShown())
-                    Cliente.session.iniciarSeccion(startFrame.getEmail(), startFrame.getUsername(), startFrame.getPassword(), startFrame.getRepeatPassword());
+                if (startFrame.getIsEmpleado()) {
+                    Empleado.login(startFrame.getEmail(), startFrame.getPassword());
+                }
+                if (!startFrame.getIsLoginShown())
+                    Cliente.iniciarSeccion(startFrame.getEmail(), startFrame.getUsername(), startFrame.getPassword(), startFrame.getRepeatPassword());
                 else {
-                    Cliente.session.login(startFrame.getEmail(), startFrame.getPassword());
+                    Cliente.login(startFrame.getEmail(), startFrame.getPassword());
                 }
             }
         }

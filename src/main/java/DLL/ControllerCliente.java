@@ -8,13 +8,14 @@ import java.sql.SQLException;
 
 public class ControllerCliente {
     protected final static String TABLE = "usuarios";
+    private final static String ROL = "usuario";
 
     public Cliente iniciarSeccionBase(String correo, String username, String contrasena) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + "(correo,username,contrasena) VALUES(?,?,?)";
+        String sql = "INSERT INTO " + TABLE + "(correo,username,contrasena,fk_rol) VALUES(?,?,?,(SELECT id FROM roles WHERE nombre = ?))";
 
         String hash = Hash.hash(contrasena);
 
-        String[] vals = {correo, username, hash};
+        String[] vals = {correo, username, hash, ROL};
 
         int res = Database.getInstanse().update(sql, vals);
 

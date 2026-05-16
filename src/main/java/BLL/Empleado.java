@@ -2,6 +2,7 @@ package BLL;
 
 import DLL.ControllerEmpleado;
 import GUI.StateManager;
+import Utils.Validator;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -15,7 +16,12 @@ public class Empleado extends Usuario {
         super(id, correo, username, contrasena, pfp, sobre);
     }
 
-    public int login(String correo, String contrasena) {
+    public static int login(String correo, String contrasena) {
+        if (Validator.emailValidate(correo)) {
+            JOptionPane.showMessageDialog(null, "correo no es valido");
+            return -1;
+        }
+
         try {
             session = controller.loginBase(correo, contrasena);
         } catch (SQLException e) {

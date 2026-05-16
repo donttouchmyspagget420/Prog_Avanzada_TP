@@ -9,11 +9,12 @@ import java.time.LocalDate;
 
 public class ControllerEmpleado {
     protected final static String TABLE = "usuarios";
+    private final static String ROL = "empleado";
 
     public Empleado loginBase(String correo, String contrasena) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE + " WHERE correo = ?";
+        String sql = "SELECT * FROM " + TABLE + " WHERE correo = ? AND fk_rol = (SELECT id FROM roles WHERE nombre = ?)";
 
-        String[] vals = {correo};
+        String[] vals = {correo, ROL};
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
