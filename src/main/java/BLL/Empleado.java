@@ -28,7 +28,12 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede loguearse, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
+
+        if (session == null) return -1;
+
+        StateManager.setPagina(StateManager.paginas.HOME);
+        JOptionPane.showMessageDialog(null, "iniciado seccion corectamente!");
+
         return 0;
     }
 
@@ -40,7 +45,7 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede crear la venta, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
+
         return res;
     }
 
@@ -52,7 +57,7 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede modificar la venta, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
+
         return res;
     }
 
@@ -64,7 +69,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede eliminar la venta, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -76,7 +80,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede crear el libro, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -88,7 +91,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede modificar el libro, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -100,7 +102,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede eliminar el libro, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -112,7 +113,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede crear el cliente, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -124,7 +124,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede modificar el cliente, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -136,7 +135,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede eliminar el cliente, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -148,7 +146,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede crear el comentario, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -160,7 +157,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede modificar el comentario, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 
@@ -172,7 +168,6 @@ public class Empleado extends Usuario {
             JOptionPane.showMessageDialog(null, "no puede eliminar el comentario, razon\n" + e.getMessage());
             return -1;
         }
-        StateManager.proximo();
         return res;
     }
 }

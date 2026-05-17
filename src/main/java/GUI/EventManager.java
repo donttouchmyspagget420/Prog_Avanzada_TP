@@ -10,6 +10,8 @@ public class EventManager implements ActionListener {
     private static EventManager eventManager;
 
     protected StartFrame startFrame;
+    protected HomeFrame homeFrame;
+    protected SideBar sideBar;
 
     protected static EventManager getInstanse() {
         if (eventManager == null) eventManager = new EventManager();

@@ -44,8 +44,11 @@ public class Cliente extends Usuario {
             return -1;
         }
 
+        if (session == null) return -1;
+
+        StateManager.setPagina(StateManager.paginas.HOME);
         JOptionPane.showMessageDialog(null, "iniciado seccion corectamente!");
-        StateManager.proximo();
+
         return 0;
     }
 
@@ -62,8 +65,11 @@ public class Cliente extends Usuario {
             return -1;
         }
 
+        if (session == null) return -1;
+
+        StateManager.setPagina(StateManager.paginas.HOME);
         JOptionPane.showMessageDialog(null, "logueado corectamente!");
-        StateManager.proximo();
+
         return 0;
     }
 

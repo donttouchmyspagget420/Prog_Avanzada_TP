@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class StartFrame extends JFrame {
+    private static final String NAME = "StartFrame";
+
     private JPanel wrapper, btnWrapper;
     private JTextField emailField, usernameField, passwordField, repeatPasswordField;
     private JCheckBox empleado;
@@ -63,6 +65,8 @@ public class StartFrame extends JFrame {
         this.setVisible(true);
 
         isLoginShown = true;
+
+        setName(NAME);
     }
 
     protected void showLogin() {

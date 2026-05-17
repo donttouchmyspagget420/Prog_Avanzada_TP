@@ -1,9 +1,12 @@
 package GUI;
 
+import Utils.PlatformManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
 public class main {
     public static void main(String[] args) {
+        PlatformManager.getSystemInfo();
+
         try {
             FlatDarculaLaf.setup();
         } catch (Exception e) {
@@ -11,6 +14,6 @@ public class main {
             System.err.println(e.getMessage());
         }
 
-        StartFrame startFrame = new StartFrame();
+        StateManager.setPagina(StateManager.paginas.START);
     }
 }
