@@ -17,7 +17,7 @@ public class Empleado extends Usuario {
     }
 
     public static int login(String correo, String contrasena) {
-        if (Validator.emailValidate(correo)) {
+        if (!Validator.emailValidate(correo)) {
             JOptionPane.showMessageDialog(null, "correo no es valido");
             return -1;
         }

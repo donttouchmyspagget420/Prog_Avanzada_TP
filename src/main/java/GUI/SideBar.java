@@ -1,21 +1,34 @@
 package GUI;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 
-public class SideBar extends JPanel {
-    SideBar() {
+class SideBar extends JPanel {
+    private static JPanel wrapper;
+
+    protected SideBar() {
         EventManager.getInstanse().sideBar = this;
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        wrapper = new JPanel();
+        wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
+
+        setSize(getWidth() / 3, getHeight());
+        setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+
+        this.add(wrapper);
+        itemsUpdate();
+
+    }
+
+    private void itemsUpdate() {
         StateManager.paginas[] options = StateManager.paginas.values();
+        Color bgColor = this.getBackground();
 
         for (StateManager.paginas option : options) {
-            JButton btn = new JButton(option.getFrameName());
+            ButtonLink btn = new ButtonLink(option.getFrameName(), bgColor, BorderFactory.createEmptyBorder(10, 10, 0, 100));
 
-            btn.addActionListener(EventManager.getInstanse());
-
-            this.add(new JPanel());
-            this.add(btn);
+            wrapper.add(btn);
         }
     }
 }

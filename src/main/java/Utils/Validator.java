@@ -20,13 +20,13 @@ public abstract class Validator {
 
     public static boolean emailValidate(String email) {
         int len = email.length();
-        if (len <= CONSTRAINS.MIN_EMAIL_SIZE.getValue() || email.isBlank()) return false;
+        if (len < CONSTRAINS.MIN_EMAIL_SIZE.getValue() || email.isBlank()) return false;
 
         int atCount = 0;
 
 
         for (int i = 0; i < len; i++) {
-            if (email.charAt(i) == '@' && (i != 1 || i != len - 1)) atCount++;
+            if (email.charAt(i) == '@' && (i != 1 && i != len - 1)) atCount++;
         }
 
         return atCount == 1;
@@ -45,7 +45,7 @@ public abstract class Validator {
         if (password.isBlank()) return false;
 
         int len = password.length();
-        if (len >= CONSTRAINS.MAX_USERNAME_SIZE.getValue()) return false;
+        if (len > CONSTRAINS.MIN_PASSWORD_SIZE.getValue()) return false;
 
         int mayuscula = 0, minuscula = 0, numero = 0;
         for (int i = 0; i < len; i++) {

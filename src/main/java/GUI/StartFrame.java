@@ -3,43 +3,40 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class StartFrame extends JFrame {
+class StartFrame extends JFrame {
     private static final String NAME = "StartFrame";
 
     private JPanel wrapper, btnWrapper;
-    private JTextField emailField, usernameField, passwordField, repeatPasswordField;
-    private JCheckBox empleado;
+    private TextField emailField, usernameField, passwordField, repeatPasswordField;
+    private CheckBox empleado;
 
     private boolean isLoginShown;
 
-    StartFrame() {
+    protected StartFrame() {
         EventManager.getInstanse().startFrame = this;
 
         wrapper = new JPanel(new GridLayout(0, 1));
         btnWrapper = new JPanel(new GridLayout(0, 2));
 
-        empleado = new JCheckBox("soy empleado", null, false);
+        empleado = new CheckBox("soy empleado", false);
 
         JPanel generalWrapper = new JPanel();
         JPanel nextWrapper = new JPanel(new GridLayout(0, 1));
 
         generalWrapper.setLayout(new BoxLayout(generalWrapper, BoxLayout.Y_AXIS));
 
-        JButton showLogin = new JButton("Logearse");
-        JButton showSignUp = new JButton("Registrarse");
+        Button showLogin = new Button("Logearse");
+        Button showSignUp = new Button("Registrarse");
 
         showLogin.addActionListener(EventManager.getInstanse());
         showSignUp.addActionListener(EventManager.getInstanse());
 
-        JButton next = new JButton("próximo");
+        Button next = new Button("próximo");
 
         next.addActionListener(EventManager.getInstanse());
 
-        emailField = new JTextField(20);
-        passwordField = new JTextField(20);
-
-        emailField.putClientProperty("JTextField.placeholderText", "correo");
-        passwordField.putClientProperty("JTextField.placeholderText", "contraseña");
+        emailField = new TextField("correo");
+        passwordField = new TextField("contraseña");
 
         repeatPasswordField = null;
 
@@ -74,10 +71,9 @@ public class StartFrame extends JFrame {
 
         wrapper.remove(usernameField);
         wrapper.remove(repeatPasswordField);
-        if (empleado == null) {
-            empleado = new JCheckBox("soy empleado", null, false);
-            wrapper.add(empleado);
-        }
+
+        empleado = new CheckBox("soy empleado", false);
+        wrapper.add(empleado);
 
         isLoginShown = true;
         revalidate();
@@ -86,15 +82,11 @@ public class StartFrame extends JFrame {
     protected void showSignUp() {
         if (!isLoginShown || empleado.isSelected()) return;
 
-        usernameField = new JTextField(20);
-        repeatPasswordField = new JTextField(20);
+        usernameField = new TextField("repetir la contraseña");
+        repeatPasswordField = new TextField("nombre de usuario");
 
         wrapper.remove(passwordField);
         wrapper.remove(empleado);
-        empleado = null;
-
-        repeatPasswordField.putClientProperty("JTextField.placeholderText", "repetir la contraseña");
-        usernameField.putClientProperty("JTextField.placeholderText", "nombre de usuario");
 
         wrapper.add(usernameField);
         wrapper.add(passwordField);

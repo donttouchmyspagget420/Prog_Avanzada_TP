@@ -1,5 +1,6 @@
 package GUI;
 
+import BLL.Cliente;
 import Utils.PlatformManager;
 import com.formdev.flatlaf.FlatDarculaLaf;
 
@@ -14,6 +15,8 @@ public class main {
             System.err.println(e.getMessage());
         }
 
-        StateManager.setPagina(StateManager.paginas.START);
+        // temperary dev option #DELETE BEFORE PROD
+        Cliente.session = new Cliente(4, "correo@com", "user", "Qwerty69", "resources/imgs/users/default.png", "");
+        StateManager.setPagina(StateManager.paginas.HOME);
     }
 }

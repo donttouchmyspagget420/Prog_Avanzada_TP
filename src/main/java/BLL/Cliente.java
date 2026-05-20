@@ -22,17 +22,17 @@ public class Cliente extends Usuario {
     }
 
     public static int iniciarSeccion(String correo, String username, String contrasena, String contrasenaRepetido) {
-        if (Validator.emailValidate(correo)) {
+        if (!Validator.emailValidate(correo)) {
             JOptionPane.showMessageDialog(null, "correo no es valido");
             return -1;
         }
 
-        if (Validator.usernameValidate(username)) {
+        if (!Validator.usernameValidate(username)) {
             JOptionPane.showMessageDialog(null, "nombre de usuario debe ser de 3 a 20 caracteres,debe contener");
             return -1;
         }
 
-        if (Validator.passwordValidate(contrasena)) {
+        if (!Validator.passwordValidate(contrasena)) {
             JOptionPane.showMessageDialog(null, "contraseña debe ser minimo 8 caracteres y contener una MAYUSCULA, una minuscula y un numero");
             return -1;
         }
@@ -53,7 +53,7 @@ public class Cliente extends Usuario {
     }
 
     public static int login(String correo, String contrasena) {
-        if (Validator.emailValidate(correo)) {
+        if (!Validator.emailValidate(correo)) {
             JOptionPane.showMessageDialog(null, "correo no es valido");
             return -1;
         }

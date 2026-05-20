@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 
 public abstract class StateManager {
-    private static JFrame pagina;
+    private static JFrame currentPage;
 
     public enum paginas {
         START("StartFrame"),
@@ -21,9 +21,10 @@ public abstract class StateManager {
     }
 
     public static void setPagina(paginas pagina) {
+        if (currentPage != null) currentPage.setVisible(false);
         switch (pagina) {
-            case paginas.START -> new StartFrame();
-            case paginas.HOME -> new HomeFrame();
+            case paginas.START -> currentPage = new StartFrame();
+            case paginas.HOME -> currentPage = new HomeFrame();
         }
     }
 
