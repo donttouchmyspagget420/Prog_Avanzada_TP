@@ -79,7 +79,7 @@ public class Libro {
     }
 
     public int dejarClasificacion(int libroId, int clasificacion) {
-        int userId = Cliente.session.getId();
+        int userId = Cliente.getSession().getId();
 
         try {
             return controller.dejarClasificacionBase(userId, libroId, clasificacion);
@@ -90,7 +90,7 @@ public class Libro {
     }
 
     public ArrayList<Libro> verHistorialLecturas() {
-        int userId = Cliente.session.getId();
+        int userId = Cliente.getSession().getId();
 
         try {
             return controller.verHistorialLecturasBase(userId);
@@ -101,7 +101,7 @@ public class Libro {
     }
 
     public String leerPaginasLibro(int libroId) {
-        int userId = Cliente.session.getId();
+        int userId = Cliente.getSession().getId();
 
         try {
             return controller.leerPaginasLibroBase(userId, libroId);

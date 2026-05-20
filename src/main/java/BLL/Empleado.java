@@ -10,7 +10,15 @@ import java.time.LocalDate;
 
 public class Empleado extends Usuario {
     private static ControllerEmpleado controller = new ControllerEmpleado();
-    public static Empleado session = null;
+    private static Empleado session = null;
+
+    public static Empleado getSession() {
+        return session;
+    }
+
+    public static void setSession(Empleado empleado) {
+        session = empleado;
+    }
 
     public Empleado(int id, String correo, String username, String contrasena, String pfp, String sobre) {
         super(id, correo, username, contrasena, pfp, sobre);

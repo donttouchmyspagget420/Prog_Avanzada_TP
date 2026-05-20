@@ -10,10 +10,18 @@ import java.sql.SQLException;
 public class Cliente extends Usuario {
 
     private static ControllerCliente controller = new ControllerCliente();
-    public static Cliente session = null;
+    private static Cliente session = null;
 
     public Cliente(int id, String correo, String username, String contrasena) {
         super(id, correo, username, contrasena);
+    }
+
+    public static Cliente getSession() {
+        return session;
+    }
+
+    public static void setSession(Cliente cliente) {
+        session = cliente;
     }
 
 

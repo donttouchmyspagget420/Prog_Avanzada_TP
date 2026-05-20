@@ -42,7 +42,7 @@ public class Venta {
     }
 
     public ArrayList<Venta> verHistorialCompras() {
-        int userId = Cliente.session.getId();
+        int userId = Cliente.getSession().getId();
         ArrayList<Venta> res;
 
         try {
@@ -54,7 +54,7 @@ public class Venta {
     }
 
     public int comprarLibro(int libroId, int cantidad, String metodoPago) {
-        int userId = Cliente.session.getId();
+        int userId = Cliente.getSession().getId();
 
         try {
             int ventaId = controller.comprarLibro(userId, libroId, cantidad, metodoPago);

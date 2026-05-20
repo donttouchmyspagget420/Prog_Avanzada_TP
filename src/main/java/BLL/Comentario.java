@@ -5,8 +5,6 @@ import DLL.ControllerComentario;
 import javax.swing.*;
 import java.sql.SQLException;
 
-import static BLL.Cliente.session;
-
 public class Comentario {
     private static ControllerComentario controller = new ControllerComentario();
 
@@ -23,7 +21,7 @@ public class Comentario {
     }
 
     public int dejarComentario(int libroId, int clasificacion, String contenido) {
-        int userId = session.getId();
+        int userId = Cliente.getSession().getId();
 
         try {
             return controller.dejarComentario(userId, libroId, clasificacion, contenido);

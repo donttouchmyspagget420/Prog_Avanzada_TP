@@ -14,7 +14,7 @@ class SideBar extends JPanel {
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
 
         setSize(getWidth() / 3, getHeight());
-        setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.BLACK));
+        setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.LIGHT_GRAY));
 
         this.add(wrapper);
         itemsUpdate();
@@ -26,7 +26,7 @@ class SideBar extends JPanel {
         Color bgColor = this.getBackground();
 
         for (StateManager.paginas option : options) {
-            ButtonLink btn = new ButtonLink(option.getFrameName(), bgColor, BorderFactory.createEmptyBorder(10, 10, 0, 100));
+            ButtonLink btn = new ButtonLink(option.getFrameName(), bgColor, BorderFactory.createEmptyBorder(10, 0, 10, 100));
 
             wrapper.add(btn);
         }
