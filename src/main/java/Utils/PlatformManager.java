@@ -13,7 +13,7 @@ public abstract class PlatformManager {
             JOptionPane.showMessageDialog(null, e.getMessage());
             System.exit(-1);
         }
-        pathImgs = "resources" + separator + "imgs";
+        pathImgs = "src" + separator + "main" + separator + "resources" + separator + "imgs" + separator;
     }
 
     public static String getOs() {

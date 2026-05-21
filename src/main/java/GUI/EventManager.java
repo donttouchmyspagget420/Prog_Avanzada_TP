@@ -37,6 +37,7 @@ public class EventManager implements ActionListener {
             }
             case "Quitar la cuenta" -> StateManager.setPagina(StateManager.paginas.START);
             case "Home" -> StateManager.setPagina(StateManager.paginas.HOME);
+            case "Catálogo" -> StateManager.setPagina(StateManager.paginas.CATALOG);
         }
     }
 }

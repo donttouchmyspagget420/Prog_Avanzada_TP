@@ -10,7 +10,8 @@ public abstract class StateManager {
 
     public enum paginas {
         START("Quitar la cuenta"),
-        HOME("Home");
+        HOME("Home"),
+        CATALOG("Catálogo");
 
         private String frame;
 
@@ -32,6 +33,7 @@ public abstract class StateManager {
                 currentPage = new StartFrame();
             }
             case paginas.HOME -> currentPage = new HomeFrame();
+            case paginas.CATALOG -> currentPage = new CatalogFrame();
         }
     }
 

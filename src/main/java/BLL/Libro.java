@@ -1,6 +1,7 @@
 package BLL;
 
 import DLL.ControllerLibro;
+import Utils.PlatformManager;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -48,7 +49,7 @@ public class Libro {
         }
     }
 
-    public ArrayList<Libro> verCatalogo(String categoria) {
+    public static ArrayList<Libro> verCatalogo(String categoria) {
         final int cantidad = 100;
         ArrayList<Libro> res;
 
@@ -109,5 +110,9 @@ public class Libro {
             JOptionPane.showMessageDialog(null, "no puede leer, razon:\n" + e.getMessage());
             return null;
         }
+    }
+
+    public String getPortada() {
+        return PlatformManager.getPathImgs() + portada;
     }
 }
