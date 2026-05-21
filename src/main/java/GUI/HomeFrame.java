@@ -10,19 +10,27 @@ class HomeFrame extends JFrame {
     private static JPanel imgsWrapper;
 
     protected HomeFrame() {
-        setLayout(new BorderLayout());
+        JPanel wrapper = new JPanel();
+        JLabel label = new JLabel("The best books");
 
         sidebar = new SideBar();
 
-        imgsWrapper = new JPanel(new GridLayout(0, 5));
+        imgsWrapper = new JPanel(new GridLayout(0, 3));
 
         showImages();
 
-        this.add(imgsWrapper, BorderLayout.CENTER);
-        this.add(sidebar, BorderLayout.LINE_START);
+        setLayout(new BorderLayout());
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(true);
+        wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
+
+        wrapper.add(label);
+        wrapper.add(imgsWrapper);
+
+        add(sidebar, BorderLayout.LINE_START);
+        add(wrapper, BorderLayout.CENTER);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
 
         setName(NAME);
     }
@@ -30,17 +38,8 @@ class HomeFrame extends JFrame {
 
     private void showImages() {
         //ArrayList<Libro> libros = Popularidad.getLibros();
-        BookCover imgPanel0 = new BookCover();
-        BookCover imgPanel1 = new BookCover();
-        BookCover imgPanel2 = new BookCover();
-        BookCover imgPanel3 = new BookCover();
-        BookCover imgPanel4 = new BookCover();
-
-
-        imgsWrapper.add(imgPanel0);
-        imgsWrapper.add(imgPanel1);
-        imgsWrapper.add(imgPanel2);
-        imgsWrapper.add(imgPanel3);
-        imgsWrapper.add(imgPanel4);
+        for (int i = 1; i <= 6; i++) {
+            imgsWrapper.add(new BookCover());
+        }
     }
 }
