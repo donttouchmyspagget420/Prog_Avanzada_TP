@@ -17,6 +17,6 @@ public class main {
 
         // temperary dev option #DELETE BEFORE PROD
         Cliente.setSession(new Cliente(4, "correo@com", "user", "Qwerty69", "resources/imgs/users/default.png", ""));
-        StateManager.setPagina(StateManager.paginas.HOME);
+        StateManager.setPagina(StateManager.paginas.CATALOG);
     }
 }

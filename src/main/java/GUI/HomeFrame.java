@@ -11,8 +11,10 @@ import java.util.ArrayList;
 class HomeFrame extends JFrame {
     private static final String NAME = "HomeFrame";
 
-    private static SideBar sidebar;
-    private static JPanel imgsWrapper;
+    private SideBar sidebar;
+    private JPanel imgsWrapper;
+
+    private int columns = 3;
 
     protected HomeFrame() {
         JPanel wrapper = new JPanel();
@@ -21,7 +23,7 @@ class HomeFrame extends JFrame {
 
         sidebar = new SideBar();
 
-        imgsWrapper = new JPanel(new GridLayout(0, 3));
+        imgsWrapper = new JPanel(new GridLayout(0, columns));
 
         setLayout(new BorderLayout());
 
@@ -39,6 +41,9 @@ class HomeFrame extends JFrame {
         setVisible(true);
 
         setName(NAME);
+
+        setSize(1000, 1000);
+        setResizable(false);
     }
 
 
@@ -59,6 +64,7 @@ class HomeFrame extends JFrame {
         for (int i = 0; i < 9; i++) {
             imgsWrapper.add(new BookCover(PlatformManager.getPathImgs() + "img.jpg"));
         }
-        System.out.println(PlatformManager.getPathImgs() + "img.jpg");
+
     }
+
 }

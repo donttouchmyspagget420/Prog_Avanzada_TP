@@ -30,5 +30,8 @@ class SideBar extends JPanel {
 
             wrapper.add(btn);
         }
+
+        ButtonLink btn = new ButtonLink("Quitar", bgColor, BorderFactory.createEmptyBorder(10, 0, 10, 100));
+        wrapper.add(btn);
     }
 }

@@ -35,6 +35,7 @@ public class EventManager implements ActionListener {
                     Cliente.login(startFrame.getEmail(), startFrame.getPassword());
                 }
             }
+            case "Quitar" -> System.exit(0);
             case "Quitar la cuenta" -> StateManager.setPagina(StateManager.paginas.START);
             case "Home" -> StateManager.setPagina(StateManager.paginas.HOME);
             case "Catálogo" -> StateManager.setPagina(StateManager.paginas.CATALOG);

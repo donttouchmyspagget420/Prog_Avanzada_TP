@@ -64,6 +64,8 @@ class StartFrame extends JFrame {
         isLoginShown = true;
 
         setName(NAME);
+        setSize(1000, 1000);
+        setResizable(false);
     }
 
     protected void showLogin() {

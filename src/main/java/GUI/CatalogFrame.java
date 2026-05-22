@@ -17,6 +17,8 @@ public class CatalogFrame extends JFrame {
     private static JPanel wrapper, imgsWrapper;
     private static JScrollPane scrollPane;
 
+    private final int COLUMNS = 3;
+
     protected CatalogFrame() {
         JPanel labelWraperr = new JPanel();
         JLabel label = new JLabel("Ver el catálogo");
@@ -51,9 +53,13 @@ public class CatalogFrame extends JFrame {
         wrapper.add(scrollPane);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
 
         setName(NAME);
+        setVisible(true);
+        setSize(1000, 1000);
+        setResizable(false);
+
+        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getWidth(), this.getHeight() * COLUMNS));
     }
 
 
@@ -75,19 +81,25 @@ public class CatalogFrame extends JFrame {
             return;
         }
 
-        for (Libro libro : libros) {
-            imgsWrapper.add(new BookCover(libro.getPortada()));
+        ArrayList<String> list = new ArrayList<>(COLUMNS);
+
+        for (int i = 0; i < libros.size(); i++) {
+            if (i % COLUMNS == 0) JPanel imgsPanel;
+            imgsPanel = new JPanel();
+            imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
+            imgsPanel.add(new BookCover(PlatformManager.getPathImgs() + "img.jpg"));
+            list.clear();
+            imgsWrapper.add(imgsPanel);
+        }
         }*/
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 9; i++) {
             JPanel imgsPanel = new JPanel();
             imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < COLUMNS; j++) {
                 imgsPanel.add(new BookCover(PlatformManager.getPathImgs() + "img.jpg"));
             }
             imgsWrapper.add(imgsPanel);
         }
-
-        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getWidth(), imgsWrapper.getHeight() * 2));
     }
 }
