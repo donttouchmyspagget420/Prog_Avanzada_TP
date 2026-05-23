@@ -115,4 +115,48 @@ public class Libro {
     public String getPortada() {
         return PlatformManager.getPathImgs() + portada;
     }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public int getCantidadDeClasificacion() {
+        return cantidadDeClasificacion;
+    }
+
+    public int getPaginas() {
+        return paginas;
+    }
+
+    public float getClasificacion() {
+        return clasificacion;
+    }
+
+    public int getFkCategoria() {
+        return fkCategoria;
+    }
+
+    public int getFkAutor() {
+        return fkAutor;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public float getPrecio() {
+        return precio;
+    }
+
+    public int getStock() {
+        return stock;
+    }
 }

@@ -33,6 +33,9 @@ public class CatalogFrame extends JFrame {
 
         sidebar = new SideBar();
 
+        //config
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        scrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
         imgsWrapper.setLayout(new BoxLayout(imgsWrapper, BoxLayout.Y_AXIS));
         label.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -53,7 +56,6 @@ public class CatalogFrame extends JFrame {
         wrapper.add(scrollPane);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         setName(NAME);
         setVisible(true);
         setSize(1000, 1000);
@@ -83,21 +85,26 @@ public class CatalogFrame extends JFrame {
 
         ArrayList<String> list = new ArrayList<>(COLUMNS);
 
+        JPanel imgsPanel = new JPanel();
+        imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
+
         for (int i = 0; i < libros.size(); i++) {
-            if (i % COLUMNS == 0) JPanel imgsPanel;
-            imgsPanel = new JPanel();
-            imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
-            imgsPanel.add(new BookCover(PlatformManager.getPathImgs() + "img.jpg"));
-            list.clear();
-            imgsWrapper.add(imgsPanel);
+            if (i % COLUMNS == 0){
+                imgsWrapper.add(imgsPanel);
+                imgsPanel = new JPanel();
+                imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
+            }
+
+            imgsPanel.add(new BookCover(libros[i]));
         }
         }*/
-
+        Libro libro = new Libro(0, "img.jpg", 69.99F, 10, "aura monster", "jomama", "", 69, 69, 6.9F, 69, 69);
+        JPanel imgsPanel;
         for (int i = 0; i < 9; i++) {
-            JPanel imgsPanel = new JPanel();
+            imgsPanel = new JPanel();
             imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
             for (int j = 0; j < COLUMNS; j++) {
-                imgsPanel.add(new BookCover(PlatformManager.getPathImgs() + "img.jpg"));
+                imgsPanel.add(new BookCover(libro));
             }
             imgsWrapper.add(imgsPanel);
         }

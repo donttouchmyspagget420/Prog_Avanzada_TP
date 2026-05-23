@@ -25,7 +25,7 @@ public abstract class StateManager {
     }
 
     public static void setPagina(paginas pagina) {
-        if (currentPage != null) currentPage.setVisible(false);
+        if (currentPage != null) currentPage.dispose();
         switch (pagina) {
             case paginas.START -> {
                 Cliente.setSession(null);
@@ -35,6 +35,10 @@ public abstract class StateManager {
             case paginas.HOME -> currentPage = new HomeFrame();
             case paginas.CATALOG -> currentPage = new CatalogFrame();
         }
+    }
+
+    public static void setVisible(boolean b) {
+        currentPage.setVisible(b);
     }
 
 }

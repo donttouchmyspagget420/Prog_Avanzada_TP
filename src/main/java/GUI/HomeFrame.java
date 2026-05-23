@@ -61,8 +61,9 @@ class HomeFrame extends JFrame {
             imgsWrapper.add(new BookCover(libro.getPortada()));
         }
          */
+        Libro libro = new Libro(0, "img.jpg", 69.99F, 10, "aura monster", "jomama", "", 69, 69, 6.9F, 69, 69);
         for (int i = 0; i < 9; i++) {
-            imgsWrapper.add(new BookCover(PlatformManager.getPathImgs() + "img.jpg"));
+            imgsWrapper.add(new BookCover(libro));
         }
 
     }

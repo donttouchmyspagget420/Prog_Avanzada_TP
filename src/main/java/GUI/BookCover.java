@@ -1,13 +1,16 @@
 package GUI;
 
+import BLL.Libro;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class BookCover extends JPanel {
-    protected BookCover(String path) {
+    protected BookCover(Libro libro) {
+        String path = libro.getPortada();
         ImagePanel cover = new ImagePanel(path);
 
-        JLabel title = new JLabel("aura monster");
+        ButtonLink title = new ButtonLink(libro.getTitulo(), Color.DARK_GRAY);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -15,5 +18,10 @@ public class BookCover extends JPanel {
 
         this.add(cover);
         this.add(title);
+
+        title.addActionListener(e -> {
+            StateManager.setVisible(false);
+            new BookFrame(libro);
+        });
     }
 }
