@@ -15,38 +15,51 @@ public class BookFrame extends JFrame {
         Button back = new Button("Atrás");
         JLabel title = new JLabel(name, JLabel.RIGHT);
 
-        JPanel wrapper = new JPanel(new BorderLayout());
+        JPanel wrapper = new JPanel(new BorderLayout(100, 0));
         JLabel cover = new JLabel(new ImageIcon(libro.getPortada()));
         JPanel textWrapper = new JPanel();
-        JLabel mainTitle = new JLabel(name, JLabel.LEFT);
-        JLabel clasification = new JLabel(String.valueOf(libro.getClasificacion()), JLabel.LEFT);
+        JLabel mainTitle = new JLabel(name);
+        JLabel clasification = new JLabel(libro.getClasificacion() + "/10", JLabel.LEFT);
         Button buy = new Button("Comprar");
+        JTextArea description = new JTextArea(libro.getDescripcion());
 
-        JPanel descriptionWrapper = new JPanel();
-        JLabel descriptionLabel = new JLabel("Descripcion", JLabel.CENTER);
-        JLabel description = new JLabel(libro.getDescripcion(), JLabel.LEFT);
+        JPanel commentsGeneralWrapper = new JPanel();
+        JPanel textCommentsWrapper = new JPanel();
+        JPanel writeComentWrapper = new JPanel();
+        JPanel commentsWrapper = new JPanel();
+        JTextArea writeComment = new JTextArea();
 
-        descriptionWrapper.setLayout(new BoxLayout(descriptionWrapper, BoxLayout.Y_AXIS));
+        mainTitle.setFont(new Font("comic sans", Font.BOLD, 25));
+        clasification.setFont(new Font("comic sans", Font.PLAIN, 16));
+        description.setFont(new Font("comic sans", Font.PLAIN, 14));
+
+        description.setEditable(false);
+        description.setLineWrap(true);
+
+        commentsGeneralWrapper.setLayout(new BoxLayout(commentsGeneralWrapper, BoxLayout.Y_AXIS));
         textWrapper.setLayout(new BoxLayout(textWrapper, BoxLayout.Y_AXIS));
+        getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
+        buy.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
         panel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
+        mainTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        clasification.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        wrapper.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         wrapper.add(cover, BorderLayout.LINE_START);
-        wrapper.add(textWrapper, BorderLayout.LINE_END);
+        wrapper.add(textWrapper, BorderLayout.CENTER);
 
         textWrapper.add(mainTitle);
         textWrapper.add(clasification);
+        textWrapper.add(description);
         textWrapper.add(buy);
-
-        descriptionWrapper.add(descriptionLabel);
-        descriptionWrapper.add(description);
 
         panel.add(back, BorderLayout.LINE_START);
         panel.add(title, BorderLayout.CENTER);
 
         add(panel);
         add(wrapper);
-        add(descriptionWrapper);
+        add(commentsGeneralWrapper);
 
         setName(name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +67,8 @@ public class BookFrame extends JFrame {
         setSize(1000, 1000);
         setVisible(true);
 
-        panel.setPreferredSize(new Dimension(getWidth(), 200));
+        wrapper.setPreferredSize(new Dimension(getWidth(), getHeight() / 3));
+        commentsGeneralWrapper.setPreferredSize(new Dimension(getWidth(), getHeight() / 2));
 
         back.addActionListener(e -> {
             StateManager.setVisible(true);

@@ -30,4 +30,20 @@ public class Comentario {
             return -1;
         }
     }
+
+    public String getAuthor() {
+        try {
+            return controller.getAuthor(fkAutor);
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public int getClasificacion() {
+        return clasificacion;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
 }
