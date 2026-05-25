@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Comment extends JPanel {
     Comment(Comentario comentario) {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        JPanel wrapper = new JPanel();
 
         JLabel username = new JLabel(comentario.getAuthor());
         JLabel clasificacion = new JLabel(comentario.getClasificacion() + "/10");
@@ -17,11 +17,16 @@ public class Comment extends JPanel {
         clasificacion.setFont(new Font("comic sans", Font.PLAIN, 16));
         content.setFont(new Font("comic sans", Font.PLAIN, 14));
 
+        content.setFocusable(false);
         content.setEditable(false);
         content.setLineWrap(true);
 
-        add(username);
-        add(clasificacion);
-        add(content);
+        wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
+
+        wrapper.add(username);
+        wrapper.add(clasificacion);
+        wrapper.add(content);
+
+        add(wrapper);
     }
 }
