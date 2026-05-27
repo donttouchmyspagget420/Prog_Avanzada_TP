@@ -11,19 +11,23 @@ import java.util.ArrayList;
 public class CatalogFrame extends JFrame {
     private static final String NAME = "CatalogFrame";
 
-    private static JComboBox dropdown;
-    private static String[] categorias;
-    private static SideBar sidebar;
-    private static JPanel wrapper, imgsWrapper;
-    private static JScrollPane scrollPane;
+    private TextField search;
+    private JComboBox dropdown;
+    private String[] categorias;
+    private SideBar sidebar;
+    private JPanel wrapper, imgsWrapper;
+    private JScrollPane scrollPane;
 
     private final int COLUMNS = 3;
 
     protected CatalogFrame() {
-        JPanel labelWraperr = new JPanel();
-        JLabel label = new JLabel("Ver el catálogo");
+        JPanel head = new JPanel(new BorderLayout());
+        JButton buscar = new JButton("Buscar");
+        JPanel headWrappper = new JPanel();
 
         imgsWrapper = new JPanel();
+
+        search = new TextField("buscar");
 
         wrapper = new JPanel(new BorderLayout());
 
@@ -37,7 +41,6 @@ public class CatalogFrame extends JFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
         imgsWrapper.setLayout(new BoxLayout(imgsWrapper, BoxLayout.Y_AXIS));
-        label.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         setLayout(new BorderLayout());
@@ -47,12 +50,15 @@ public class CatalogFrame extends JFrame {
         add(sidebar, BorderLayout.LINE_START);
         add(wrapper, BorderLayout.CENTER);
 
-        labelWraperr.add(label);
-        labelWraperr.add(dropdown);
+        headWrappper.add(dropdown);
+        headWrappper.add(search);
 
-        showImages();
+        head.add(headWrappper, BorderLayout.WEST);
+        head.add(buscar, BorderLayout.EAST);
 
-        wrapper.add(labelWraperr, BorderLayout.NORTH);
+        showImages(dropdown.getSelectedItem().toString());
+
+        wrapper.add(head, BorderLayout.NORTH);
         wrapper.add(scrollPane);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,6 +68,14 @@ public class CatalogFrame extends JFrame {
         setResizable(false);
 
         imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getWidth(), this.getHeight() * COLUMNS));
+
+        dropdown.addActionListener(e -> {
+            showImages(dropdown.getSelectedItem().toString());
+        });
+
+        buscar.addActionListener(e -> {
+            showImagesBuscar(search.getText());
+        });
     }
 
 
@@ -71,10 +85,15 @@ public class CatalogFrame extends JFrame {
         if (categorias == null) return;
 
         dropdown = new JComboBox<>(categorias);
+
+        String category = BookFrame.getCategory();
+        if (category != null) dropdown.setSelectedItem(category);
     }
 
-    private void showImages() {
-        /*ArrayList<Libro> libros = Libro.verCatalogo(dropdown.getSelectedItem().toString());
+    private void showImages(String categoria) {
+        imgsWrapper.removeAll();
+
+        /*ArrayList<Libro> libros = Libro.verCatalogo(categoria);
 
         if (libros == null || libros.size() == 0) {
             imgsWrapper.add(new JPanel());
@@ -108,5 +127,49 @@ public class CatalogFrame extends JFrame {
             }
             imgsWrapper.add(imgsPanel);
         }
+
+        imgsWrapper.revalidate();
+        imgsWrapper.repaint();
+    }
+
+    private void showImagesBuscar(String search) {
+        imgsWrapper.removeAll();
+        /*ArrayList<Libro> libros = Libro.buscarLibros(search);
+
+        if (libros == null || libros.size() == 0) {
+            imgsWrapper.add(new JPanel());
+            imgsWrapper.add(new JLabel("No hay libros"));
+            imgsWrapper.add(new JPanel());
+            return;
+        }
+
+        ArrayList<String> list = new ArrayList<>(COLUMNS);
+
+        JPanel imgsPanel = new JPanel();
+        imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
+
+        for (int i = 0; i < libros.size(); i++) {
+            if (i % COLUMNS == 0){
+                imgsWrapper.add(imgsPanel);
+                imgsPanel = new JPanel();
+                imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
+            }
+
+            imgsPanel.add(new BookCover(libros[i]));
+        }
+        }*/
+        Libro libro = new Libro(0, "img.jpg", 69.99F, 10, "aura monster", "jomama", "", 69, 69, 6.9F, 69, 69);
+        JPanel imgsPanel;
+        for (int i = 0; i < 9; i++) {
+            imgsPanel = new JPanel();
+            imgsPanel.setLayout(new BoxLayout(imgsPanel, BoxLayout.X_AXIS));
+            for (int j = 0; j < COLUMNS; j++) {
+                imgsPanel.add(new BookCover(libro));
+            }
+            imgsWrapper.add(imgsPanel);
+        }
+
+        imgsWrapper.revalidate();
+        imgsWrapper.repaint();
     }
 }

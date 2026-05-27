@@ -13,7 +13,7 @@ public class ControllerComentario {
     protected final static String TABLE = "comentarios";
 
     public int dejarComentarioBase(int userId, int libroId, int clasification, String contenido) throws SQLException {
-        String sql = "INSERT INTO " + TABLE + "(clasificacion,contenido,fk_autor,fk_libro) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO " + TABLE + "(clasificacion,contenido,fk_autor,fk_libro) VALUES(CAST(? AS INT),?,CAST(? AS INT),CAST(? AS INT))";
 
         String[] vals = {String.valueOf(clasification), contenido, String.valueOf(userId), String.valueOf(libroId)};
 
@@ -41,7 +41,7 @@ public class ControllerComentario {
     }
 
     public ArrayList<Comentario> getComentariosBase(int libroId) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE + " WHERE fk_author = ?";
+        String sql = "SELECT * FROM " + TABLE + " WHERE fk_libro = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(libroId)};
 
@@ -53,9 +53,10 @@ public class ControllerComentario {
             int id = resultSet.getInt("id");
             int clasificacion = resultSet.getInt("clasificacion");
             String contenido = resultSet.getString("contenido");
-            int fkAuthor = resultSet.getInt("fk_author");
+            int fkLibro = resultSet.getInt("fk_libro");
+            int fkAuthor = resultSet.getInt("fk_autor");
 
-            res.add(new Comentario(id, clasificacion, contenido, fkAuthor));
+            res.add(new Comentario(id, clasificacion, contenido, fkAuthor, fkLibro));
         }
 
         return res;

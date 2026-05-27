@@ -11,7 +11,7 @@ public class ControllerVenta {
     protected final static String TABLE = "ventas";
 
     public float calcularTotalBase(int fkLibro, int cantidad) throws SQLException {
-        String sql = "SELECT precio FROM " + ControllerLibro.TABLE + " WHERE id = ?";
+        String sql = "SELECT precio FROM " + ControllerLibro.TABLE + " WHERE id = CAST(? AS iNT)";
 
         String[] vals = {String.valueOf(fkLibro)};
 
@@ -25,7 +25,7 @@ public class ControllerVenta {
     }
 
     public int procesarPago(int ventaId) throws SQLException {
-        String sql = "UPDATE " + TABLE + " SET estado = ? WHERE id = ?";
+        String sql = "UPDATE " + TABLE + " SET estado = ? WHERE id = CAST(? AS INT)";
 
         String[] vals = {"pagado", String.valueOf(ventaId)};
 
@@ -63,15 +63,9 @@ public class ControllerVenta {
 
 
     public int comprarLibro(int userId, int libroId, int cantidad, String metodoPago) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM " + TABLE;
-
-        ResultSet resultSet = Database.getInstanse().query(sql);
-
-        int id = resultSet.getInt(1);
-
         float total = calcularTotalBase(libroId, cantidad);
 
-        sql = "INSERT INTO " + TABLE + "(fk_libro,fk_usuario,cantidad,total,metodoPago,estado) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO " + TABLE + "(fk_libro,fk_usuario,cantidad,total,metodoPago,estado) VALUES(CAST(? AS INT),CAST(? AS INT),CAST(? AS INT),CAST(? AS FLOAT),?,?)";
 
         String[] vals = new String[]{String.valueOf(libroId), String.valueOf(userId), String.valueOf(cantidad), String.valueOf(total), metodoPago, "procesando"};
 
@@ -79,7 +73,13 @@ public class ControllerVenta {
 
         if (res <= 0) return -1;
 
-        return id;
+        sql = "SELECT MAX(id) FROM " + TABLE;
+
+        ResultSet resultSet = Database.getInstanse().query(sql);
+
+        resultSet.next();
+
+        return resultSet.getInt(1);
     }
 
     public String generarFacturaBase(int fkLibro, int fkCliente) throws SQLException {

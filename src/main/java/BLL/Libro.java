@@ -123,6 +123,27 @@ public class Libro {
         }
     }
 
+
+    public int checkClasificacion() {
+        int userId = Cliente.getSession().getId();
+
+        try {
+            return controller.checkClasifiocacionBase(userId, this.id);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "algo pasó:\n" + e.getMessage());
+            return -1;
+        }
+    }
+
+    public static Libro getById(int libroId) {
+        try {
+            return controller.getByIdBase(libroId);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public String getPortada() {
         return PlatformManager.getPathImgs() + portada;
     }

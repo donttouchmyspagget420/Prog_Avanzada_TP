@@ -10,7 +10,7 @@ public class ControllerLibro {
     protected final static String TABLE = "libros";
 
     public int actualizarStockBase(int libroId, int newStock) throws SQLException {
-        String sql = "UPDATE " + TABLE + " SET stock = ? WHERE id = ?";
+        String sql = "UPDATE " + TABLE + " SET stock = CAST(? AS INT) WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(newStock), String.valueOf(libroId)};
 
@@ -106,9 +106,17 @@ public class ControllerLibro {
         return res;
     }
 
+    public int insertClasificacionBase(int userId, int libroId, int clasification) throws SQLException {
+        String sql = "INSERT INTO clasificaciones(fk_usuario,fk_libro,clasificacion) VALUES(CAST(? AS INT),CAST(? AS INT),CAST(? AS INT))";
 
-    public int dejarClasificacionBase(int userId, int libroId, int clasification) throws SQLException {
-        String sql = "SELECT EXISTS (SELECT 1 FROM " + TABLE + " WHERE fk_libro = ? AND fk_usuario = ?)";
+        String vals[] = {String.valueOf(userId), String.valueOf(libroId), String.valueOf(clasification)};
+
+        return Database.getInstanse().update(sql, vals);
+    }
+
+
+    public int checkClasifiocacionBase(int userId, int libroId) throws SQLException {
+        String sql = "SELECT clasificacion FROM clasificaciones WHERE fk_libro = CAST(? AS INT) AND fk_usuario = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(libroId), String.valueOf(userId)};
 
@@ -116,23 +124,27 @@ public class ControllerLibro {
 
         if (!resultSet.next()) return -1;
 
-        boolean bool = resultSet.getBoolean(1);
+        return resultSet.getInt(1);
+    }
 
-        if (bool) return -1;
+    public int dejarClasificacionBase(int userId, int libroId, int clasification) throws SQLException {
+        if (checkClasifiocacionBase(userId, libroId) > 0) return -1;
 
-        sql = "SELECT count(*) FROM clasificaciones";
+        if (insertClasificacionBase(userId, libroId, clasification) <= 0) return -1;
 
-        resultSet = Database.getInstanse().query(sql);
+        String sql = "SELECT count(*) FROM clasificaciones";
+
+        ResultSet resultSet = Database.getInstanse().query(sql);
 
         if (!resultSet.next()) throw new SQLException("problemas con base de datos");
 
         int cantidad = resultSet.getInt(1);
 
-        float newClasification = (float) clasification / cantidad;
+        float newClasification = (float) (clasification * 2) / cantidad;
 
-        sql = "UPDATE " + TABLE + " SET clasificacion = clasificacion + ? WHERE id = ?";
+        sql = "UPDATE " + TABLE + " SET clasificacion = clasificacion + CAST(? AS FLOAT) WHERE id = CAST(? AS INT)";
 
-        vals = new String[]{String.valueOf(newClasification), String.valueOf(libroId)};
+        String[] vals = {String.valueOf(newClasification), String.valueOf(libroId)};
 
         return Database.getInstanse().update(sql, vals);
     }
@@ -197,7 +209,7 @@ public class ControllerLibro {
     }
 
     public String leerPaginasLibroBase(int userId, int libroId) throws SQLException {
-        String sql = "SELECT contenido FROM " + TABLE + " WHERE id = ?";
+        String sql = "SELECT contenido FROM " + TABLE + " WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(libroId)};
 
@@ -216,7 +228,7 @@ public class ControllerLibro {
     }
 
     private int ingresarHistorialLecturaBaseHelper(int userId, int libroId) throws SQLException {
-        String sql = "INSERT INTO historialLectoras(fk_usuario, fk_libro) VALUES(?,?)";
+        String sql = "INSERT INTO historialLectoras(fk_usuario, fk_libro) VALUES(CAST(? AS INT),CAST(? AS INT))";
 
         String[] vals = {String.valueOf(userId), String.valueOf(libroId)};
 
@@ -224,7 +236,7 @@ public class ControllerLibro {
     }
 
     public boolean checkCompradoBase(int fkUsuario, int fkLibro) throws SQLException {
-        String sql = "SELECT EXISTS ( SELECT 1 FROM clasificaciones WHERE fk_usuario = CAST(? AS INT) AND fk_libro = CAST(? AS INT) )";
+        String sql = "SELECT EXISTS ( SELECT 1 FROM " + ControllerVenta.TABLE + " WHERE fk_usuario = CAST(? AS INT) AND fk_libro = CAST(? AS INT) )";
 
         String[] vals = {String.valueOf(fkUsuario), String.valueOf(fkLibro)};
 
@@ -233,5 +245,11 @@ public class ControllerLibro {
         resultSet.next();
 
         return resultSet.getBoolean(1);
+    }
+
+    public Libro getByIdBase(int libroId) throws SQLException {
+        ArrayList<Libro> libros = verLibrosBaseHelper(new int[]{libroId});
+
+        return libros.get(0);
     }
 }

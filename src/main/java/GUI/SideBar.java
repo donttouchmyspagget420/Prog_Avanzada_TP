@@ -8,8 +8,6 @@ class SideBar extends JPanel {
     private static JPanel wrapper;
 
     protected SideBar() {
-        EventManager.getInstanse().sideBar = this;
-
         wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
 

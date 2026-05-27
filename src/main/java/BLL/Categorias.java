@@ -14,13 +14,22 @@ public abstract class Categorias {
         if (categorias != null) return categorias;
 
         try {
-            categorias = controller.getCategorias();
+            categorias = controller.getCategoriasBase();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;
         }
 
         return categorias;
+    }
+
+    public static String getNombre(int fkCategoria) {
+        try {
+            return controller.getNombreBase(fkCategoria);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return null;
+        }
     }
 
 }

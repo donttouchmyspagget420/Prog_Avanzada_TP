@@ -14,8 +14,9 @@ public class Read extends JFrame {
         c.setLineWrap(true);
         c.setFont(new Font("comic sans", Font.PLAIN, 14));
 
+        add(c);
+
         setSize(1000, 1000);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 }

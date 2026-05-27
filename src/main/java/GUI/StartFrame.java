@@ -12,9 +12,9 @@ class StartFrame extends JFrame {
 
     private boolean isLoginShown;
 
-    protected StartFrame() {
-        EventManager.getInstanse().startFrame = this;
+    private static StartFrame frame;
 
+    protected StartFrame() {
         wrapper = new JPanel(new GridLayout(0, 1));
         btnWrapper = new JPanel(new GridLayout(0, 2));
 
@@ -66,6 +66,10 @@ class StartFrame extends JFrame {
         setName(NAME);
         setSize(1000, 1000);
         setResizable(false);
+    }
+
+    public static StartFrame getFrame() {
+        return frame;
     }
 
     protected void showLogin() {

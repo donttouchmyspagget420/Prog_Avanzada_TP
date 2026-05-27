@@ -14,12 +14,14 @@ public class Comentario {
     private int clasificacion;
     private String contenido;
     private int fkAutor;
+    private int fkLibro;
 
-    public Comentario(int id, int clasificacion, String contenido, int fkAutor) {
+    public Comentario(int id, int clasificacion, String contenido, int fkAutor, int fkLibro) {
         this.id = id;
         this.clasificacion = clasificacion;
         this.contenido = contenido;
         this.fkAutor = fkAutor;
+        this.fkLibro = fkLibro;
     }
 
     public static int dejarComentario(int libroId, int clasificacion, String contenido) {
@@ -42,6 +44,19 @@ public class Comentario {
         }
     }
 
+    public static ArrayList<Comentario> getComentarios(int libroid) {
+        ArrayList<Comentario> res;
+
+        try {
+            res = controller.getComentariosBase(libroid);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return res;
+    }
+
     public int getClasificacion() {
         return clasificacion;
     }
@@ -50,16 +65,5 @@ public class Comentario {
         return contenido;
     }
 
-    public static ArrayList<Comentario> getComentarios(int libroid) {
-        ArrayList<Comentario> res = new ArrayList<>();
 
-        try {
-            res = controller.getComentariosBase(libroid);
-
-        } catch (SQLException e) {
-            return null;
-        }
-
-        return res;
-    }
 }

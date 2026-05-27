@@ -59,7 +59,7 @@ public class ControllerEmpleado {
     }
 
     public int crearLibroBase(String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria, int fkAutor) throws SQLException {
-        String sql = "INSERT INTO " + ControllerLibro.TABLE + "(portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fk_categoria, fk_autor) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO " + ControllerLibro.TABLE + "(portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fk_categoria, fk_autor) VALUES(?,CAST(? AS FLOAT),CAST(? AS INT),?,?,?,CAST(? AS INT),CAST(? AS FLOAT),CAST(? AS INT),CAST(? AS INT))";
 
         String[] vals = {portada, String.valueOf(precio), String.valueOf(stock), titulo, descripcion, contenido, String.valueOf(paginas), String.valueOf(clasificacion), String.valueOf(fkCategoria), String.valueOf(fkAutor)};
 

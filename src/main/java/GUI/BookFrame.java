@@ -1,10 +1,12 @@
 package GUI;
 
+import BLL.Categorias;
 import BLL.Comentario;
 import BLL.Libro;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -12,6 +14,7 @@ public class BookFrame extends JFrame {
     private String name;
 
     private static Libro libroStatic;
+    private static BookFrame frame;
 
     private JLabel cantidad;
     private JPanel commentsWrapper;
@@ -20,9 +23,16 @@ public class BookFrame extends JFrame {
 
     private boolean comprado;
 
+    private int clasificacion = -1;
+
+    private static String category;
+
     protected BookFrame(Libro libro) {
+        frame = this;
         libroStatic = libro;
         comprado = libro.checkComprado();
+        clasificacion = libro.checkClasificacion();
+        category = Categorias.getNombre(libro.getFkCategoria());
 
         name = libro.getTitulo();
 
@@ -34,15 +44,11 @@ public class BookFrame extends JFrame {
         ImagePanel cover = new ImagePanel(libro.getPortada());
         JPanel textWrapper = new JPanel();
         JLabel mainTitle = new JLabel(name);
+        ButtonLink categoria = new ButtonLink(category, Color.DARK_GRAY);
         JLabel clasification = new JLabel(libro.getClasificacion() + "/10", JLabel.CENTER);
-        Button buy = new Button((comprado) ? "leer el principio" : "comprar");
+        Button buy = new Button((comprado) ? "Leer el principio" : "Comprar");
         JTextArea description = new JTextArea(libro.getDescripcion());
-
-        JPanel commentsGeneralWrapper = new JPanel();
-        JPanel textCommentsWrapper = new JPanel();
-        JPanel writeComentWrapper = new JPanel();
-        JTextArea writeComment = new JTextArea(10, 69);
-        Button post = new Button("postear");
+        JPanel buyWrapper = new JPanel();
         ButtonGroup clasificar = new ButtonGroup();
         JPanel clasificarWrapper = new JPanel();
         JRadioButton btn1 = new JRadioButton("1");
@@ -51,6 +57,13 @@ public class BookFrame extends JFrame {
         JRadioButton btn4 = new JRadioButton("4");
         JRadioButton btn5 = new JRadioButton("5");
 
+        JPanel commentsGeneralWrapper = new JPanel();
+        JPanel textCommentsWrapper = new JPanel();
+        JPanel writeComentWrapper = new JPanel();
+        JTextArea writeComment = new JTextArea(10, 69);
+        Button post = new Button("Postear");
+
+
         commentsWrapper = new JPanel();
         cantidad = new JLabel();
 
@@ -58,9 +71,11 @@ public class BookFrame extends JFrame {
 
         cantidad.setFont(new Font("comic sans", Font.BOLD, 14));
         mainTitle.setFont(new Font("comic sans", Font.BOLD, 25));
+        categoria.setFont(new Font("comic sans", Font.BOLD, 25));
         clasification.setFont(new Font("comic sans", Font.PLAIN, 16));
         description.setFont(new Font("comic sans", Font.PLAIN, 14));
 
+        clasificarWrapper.setAlignmentX(Component.LEFT_ALIGNMENT);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         description.setAlignmentX(JTextArea.LEFT_ALIGNMENT);
         description.setEditable(false);
@@ -74,7 +89,7 @@ public class BookFrame extends JFrame {
 
         scrollPane.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         commentsWrapper.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        buy.setBorder(BorderFactory.createEmptyBorder(10, 50, 10, 50));
+        buy.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
         panel.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
         mainTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         clasification.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
@@ -98,9 +113,8 @@ public class BookFrame extends JFrame {
 
         textCommentsWrapper.add(cantidad);
 
-        writeComentWrapper.add(clasificarWrapper);
-        writeComentWrapper.add(post);
         writeComentWrapper.add(writeComment);
+        writeComentWrapper.add(post);
 
         wrapper.add(cover, BorderLayout.LINE_START);
         wrapper.add(textWrapper, BorderLayout.CENTER);
@@ -109,10 +123,15 @@ public class BookFrame extends JFrame {
         if (comprado) commentsGeneralWrapper.add(writeComentWrapper);
         commentsGeneralWrapper.add(scrollPane);
 
+        buyWrapper.add(buy);
+        buyWrapper.add(clasificarWrapper);
+
         textWrapper.add(mainTitle);
         textWrapper.add(clasification);
-        textWrapper.add(buy);
+        if (clasificacion > 0) textWrapper.add(buy);
+        else textWrapper.add(buyWrapper);
         textWrapper.add(description);
+        textWrapper.add(categoria);
 
         panel.add(back, BorderLayout.LINE_START);
         panel.add(title, BorderLayout.CENTER);
@@ -127,39 +146,58 @@ public class BookFrame extends JFrame {
         setSize(1000, 1000);
         setVisible(true);
 
-        wrapper.setPreferredSize(new Dimension(getWidth(), getHeight() / 2 - getHeight() / 9));
-        commentsGeneralWrapper.setMinimumSize(new Dimension(getWidth(), getHeight() / 2));
-        cover.setPreferredSize(new Dimension(wrapper.getWidth() / 5, wrapper.getHeight()));
-        commentsWrapper.setPreferredSize(new Dimension(commentsWrapper.getWidth(), (commentsWrapper.getComponentCount()) * commentsWrapper.getComponent(0).getHeight()));
-
-        back.addActionListener(e -> {
-            StateManager.setVisible(true);
-            this.dispose();
+        SwingUtilities.invokeLater(() -> {
+            wrapper.setPreferredSize(new Dimension(getWidth(), getHeight() / 2 - getHeight() / 9));
+            commentsGeneralWrapper.setPreferredSize(new Dimension(getWidth(), getHeight() / 2));
+            cover.setPreferredSize(new Dimension(wrapper.getWidth() / 5, wrapper.getHeight()));
+            if (commentsWrapper.getComponentCount() > 0)
+                commentsWrapper.setPreferredSize(new Dimension(commentsWrapper.getWidth(), (commentsWrapper.getComponentCount()) * commentsWrapper.getComponent(0).getHeight()));
         });
 
-        buy.addActionListener(EventManager.getInstanse());
+        ActionListener a = e -> {
+            JRadioButton source = (JRadioButton) e.getSource();
 
-        post.addActionListener(e -> {
-            int clasificacion = -1;
+            if (!source.isSelected()) return;
 
-            String content = writeComment.getText();
-
-            if (content.isBlank()) return;
-
-            Enumeration<AbstractButton> mod = clasificar.getElements();
-
-            while (mod.hasMoreElements()) {
-                AbstractButton btn = mod.nextElement();
-
-                if (!btn.isSelected()) continue;
-
-                clasificacion = Integer.valueOf(btn.getText());
-            }
+            clasificacion = Integer.valueOf(source.getText());
 
             if (clasificacion <= 0) return;
 
             libro.dejarClasificacion(libro.getId(), clasificacion);
+
+            new BookFrame(libro);
+            this.dispose();
+        };
+
+        btn1.addActionListener(a);
+        btn2.addActionListener(a);
+        btn3.addActionListener(a);
+        btn4.addActionListener(a);
+        btn5.addActionListener(a);
+
+
+        post.addActionListener(e -> {
+            String content = writeComment.getText();
+
+            if (content.isBlank()) {
+                JOptionPane.showMessageDialog(null, "no se puede dejar un comentario vacio");
+                return;
+            }
+
+            if (clasificacion <= 0) {
+                JOptionPane.showMessageDialog(null, "primero tenes que dejar un clasificacion");
+                return;
+            }
+
             Comentario.dejarComentario(libro.getId(), clasificacion, content);
+
+            new BookFrame(libro);
+            this.dispose();
+        });
+
+        categoria.addActionListener(e -> {
+            StateManager.setPagina(StateManager.paginas.CATALOG);
+            this.dispose();
         });
     }
 
@@ -167,19 +205,24 @@ public class BookFrame extends JFrame {
         return libroStatic;
     }
 
+    public static BookFrame getFrame() {
+        return frame;
+    }
+
     private void commentFill() {
-        //ArrayList<Comentario> arr = Comentario.getComentarios(this.libro.getId());
-        arr = new ArrayList<>();
+        arr = Comentario.getComentarios(libroStatic.getId());
 
-        for (int i = 0; i < 10; i++) {
-            arr.add(new Comentario(0, 6, "aura monster", 3));
-        }
-
-        if (arr.size() == 0) cantidad.setText("No hay comentarios");
-        else cantidad.setText(arr.size() + " Comentarios");
+        if (arr == null || arr.size() == 0) {
+            cantidad.setText("No hay comentarios");
+            return;
+        } else cantidad.setText(arr.size() + " Comentarios");
 
         for (Comentario comm : arr) {
             commentsWrapper.add(new Comment(comm));
         }
+    }
+
+    protected static String getCategory() {
+        return category;
     }
 }

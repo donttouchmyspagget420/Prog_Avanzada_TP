@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class ControllerCategoria {
     private static final String TABLE = "categorias";
 
-    public ArrayList<String> getCategorias() throws SQLException {
+    public ArrayList<String> getCategoriasBase() throws SQLException {
         String sql = "SELECT nombre FROM " + TABLE;
 
         ResultSet resultSet = Database.getInstanse().query(sql);
@@ -21,5 +21,17 @@ public class ControllerCategoria {
         }
 
         return res;
+    }
+
+    public String getNombreBase(int fkCategoria) throws SQLException {
+        String sql = "SELECT nombre FROM " + TABLE + " WHERE id = CAST(? AS INT)";
+
+        String vals[] = {String.valueOf(fkCategoria)};
+
+        ResultSet resultSet = Database.getInstanse().query(sql, vals);
+
+        if (!resultSet.next()) return null;
+
+        return resultSet.getString("nombre");
     }
 }
