@@ -1,10 +1,13 @@
 package DLL;
 
+import BLL.Cliente;
 import BLL.Comentario;
+import Utils.PlatformManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ControllerComentario {
     protected final static String TABLE = "comentarios";
@@ -17,18 +20,24 @@ public class ControllerComentario {
         return Database.getInstanse().update(sql, vals);
     }
 
-    public String getAuthorBase(int fkAuthor) throws SQLException {
-        String sql = "SELECT username FROM " + ControllerCliente.TABLE + " WHERE id = ?";
+    public HashMap<String, String> getAuthorBase(int fkAuthor) throws SQLException {
+        String sql = "SELECT username,pfp FROM " + ControllerCliente.TABLE + " WHERE id = CAST(? as INT)";
 
         String[] vals = {String.valueOf(fkAuthor)};
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
-        String res = null;
+        resultSet.next();
 
-        if (resultSet.next()) res = resultSet.getString("username");
+        HashMap map = new HashMap();
 
-        return res;
+        String username = resultSet.getString("username");
+        String pfp = resultSet.getString("pfp");
+
+        map.put("username", username);
+        map.put("pfp", PlatformManager.getPathImgs() + pfp);
+
+        return map;
     }
 
     public ArrayList<Comentario> getComentariosBase(int libroId) throws SQLException {

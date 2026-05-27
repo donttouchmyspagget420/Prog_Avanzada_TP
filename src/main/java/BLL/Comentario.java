@@ -5,6 +5,7 @@ import DLL.ControllerComentario;
 import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Comentario {
     private static ControllerComentario controller = new ControllerComentario();
@@ -21,7 +22,7 @@ public class Comentario {
         this.fkAutor = fkAutor;
     }
 
-    public int dejarComentario(int libroId, int clasificacion, String contenido) {
+    public static int dejarComentario(int libroId, int clasificacion, String contenido) {
         int userId = Cliente.getSession().getId();
 
         try {
@@ -32,7 +33,7 @@ public class Comentario {
         }
     }
 
-    public String getAuthor() {
+    public HashMap<String, String> getAuthor() {
         try {
             return controller.getAuthorBase(fkAutor);
         } catch (SQLException e) {

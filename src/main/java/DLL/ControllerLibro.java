@@ -222,4 +222,16 @@ public class ControllerLibro {
 
         return Database.getInstanse().update(sql, vals);
     }
+
+    public boolean checkCompradoBase(int fkUsuario, int fkLibro) throws SQLException {
+        String sql = "SELECT EXISTS ( SELECT 1 FROM clasificaciones WHERE fk_usuario = CAST(? AS INT) AND fk_libro = CAST(? AS INT) )";
+
+        String[] vals = {String.valueOf(fkUsuario), String.valueOf(fkLibro)};
+
+        ResultSet resultSet = Database.getInstanse().query(sql, vals);
+
+        resultSet.next();
+
+        return resultSet.getBoolean(1);
+    }
 }

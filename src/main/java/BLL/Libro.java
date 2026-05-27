@@ -112,6 +112,17 @@ public class Libro {
         }
     }
 
+    public boolean checkComprado() {
+        int userId = Cliente.getSession().getId();
+
+        try {
+            return controller.checkCompradoBase(userId, this.id);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "algo pasó:\n" + e.getMessage());
+            return false;
+        }
+    }
+
     public String getPortada() {
         return PlatformManager.getPathImgs() + portada;
     }

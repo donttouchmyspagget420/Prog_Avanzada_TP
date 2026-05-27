@@ -43,6 +43,7 @@ public class Database {
 
         for (int i = 0; i < length; i++) {
             pstmt.setObject(i + 1, vals[i]);
+            System.out.println(vals[i]);
         }
 
         return pstmt.executeQuery();

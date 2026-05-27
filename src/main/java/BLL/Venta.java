@@ -53,13 +53,20 @@ public class Venta {
         }
     }
 
-    public int comprarLibro(int libroId, int cantidad, String metodoPago) {
+    public static int comprarLibro(int libroId) {
         int userId = Cliente.getSession().getId();
+        String[] metodos = {"mercado pago", "efectivo"};
 
         try {
-            int ventaId = controller.comprarLibro(userId, libroId, cantidad, metodoPago);
+            int option = JOptionPane.showOptionDialog(null, "metodo de pago", "elegir", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, metodos, metodos[0]);
+            int cantidad = Integer.valueOf(JOptionPane.showInputDialog("cantidad?"));
+
+            if ((option < 0 && option > metodos.length - 1) || cantidad < 0) throw new Exception();
+
+            int ventaId = controller.comprarLibro(userId, libroId, cantidad, metodos[option]);
+
             return controller.procesarPago(ventaId);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "no puede comprar el libro, razon:\n" + e.getMessage());
             return -1;
         }

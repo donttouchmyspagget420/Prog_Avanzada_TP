@@ -2,6 +2,8 @@ package GUI;
 
 import BLL.Cliente;
 import BLL.Empleado;
+import BLL.Libro;
+import BLL.Venta;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +41,22 @@ public class EventManager implements ActionListener {
             case "Quitar la cuenta" -> StateManager.setPagina(StateManager.paginas.START);
             case "Home" -> StateManager.setPagina(StateManager.paginas.HOME);
             case "Catálogo" -> StateManager.setPagina(StateManager.paginas.CATALOG);
+            case "comprar" -> {
+                Libro libro = BookFrame.getLibroStatic();
+
+                if (libro == null) return;
+
+                Venta.comprarLibro(libro.getId());
+            }
+            case "leer el principio" -> {
+                Libro libro = BookFrame.getLibroStatic();
+
+                if (libro == null) return;
+
+                libro.leerPaginasLibro(libro.getId());
+
+                new Read(libro.getContenido());
+            }
         }
     }
 }
