@@ -17,38 +17,40 @@ class HomeFrame extends JFrame {
     private int columns = 3;
 
     protected HomeFrame() {
+        sidebar = new SideBar();
+        imgsWrapper = new JPanel(new GridLayout(0, columns, 20, 20));
+
         JPanel wrapper = new JPanel();
         JLabel label = new JLabel("Los Libros mas populares");
-        label.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        JPanel labelWrapper = new JPanel();
+        JScrollPane scrollPane = new JScrollPane(imgsWrapper);
 
-        sidebar = new SideBar();
-
-        imgsWrapper = new JPanel(new GridLayout(0, columns));
-
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         setLayout(new BorderLayout());
-
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
+        label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        labelWrapper.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
 
         showImages();
 
-        wrapper.add(label);
-        wrapper.add(imgsWrapper);
+        labelWrapper.add(label);
+
+        wrapper.add(labelWrapper);
+        wrapper.add(scrollPane);
 
         add(sidebar, BorderLayout.LINE_START);
         add(wrapper, BorderLayout.CENTER);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-
-        setName(NAME);
-
         setSize(1000, 1000);
         setResizable(false);
+        setName(NAME);
     }
 
 
     private void showImages() {
-        /*ArrayList<Libro> libros = Popularidad.getLibros();
+        ArrayList<Libro> libros = Popularidad.getLibros();
 
         if (libros == null || libros.size() == 0) {
             imgsWrapper.add(new JPanel());
@@ -58,14 +60,11 @@ class HomeFrame extends JFrame {
         }
 
         for (Libro libro : libros) {
-            imgsWrapper.add(new BookCover(libro.getPortada()));
-        }
-         */
-        Libro libro = new Libro(0, "img.jpg", 69.99F, 10, "aura monster", "jomama", "", 69, 69, 6.9F, 69, 69);
-        for (int i = 0; i < 9; i++) {
             imgsWrapper.add(new BookCover(libro));
         }
 
+        imgsWrapper.revalidate();
+        imgsWrapper.repaint();
     }
 
 }

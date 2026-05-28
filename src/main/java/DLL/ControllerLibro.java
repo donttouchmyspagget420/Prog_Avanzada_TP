@@ -9,22 +9,27 @@ import java.util.ArrayList;
 public class ControllerLibro {
     protected final static String TABLE = "libros";
 
-    public int actualizarStockBase(int libroId, int newStock) throws SQLException {
-        String sql = "UPDATE " + TABLE + " SET stock = CAST(? AS INT) WHERE id = CAST(? AS INT)";
+    public int actualizarStockBase(int libroId, int cantidad) throws SQLException {
+        String sql = "UPDATE " + TABLE + " SET stock = stock - CAST(? AS INT) WHERE id = CAST(? AS INT)";
 
-        String[] vals = {String.valueOf(newStock), String.valueOf(libroId)};
+        String[] vals = {String.valueOf(cantidad), String.valueOf(libroId)};
 
         return Database.getInstanse().update(sql, vals);
     }
 
-    public ArrayList<Libro> verCatalogoBase(String categoria, int cantidad) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE + "WHERE categoria = ? LIMIT " + cantidad;
+    public ArrayList<Libro> verCatalogoBase(String categoria) throws SQLException {
+        String sql = "SELECT * FROM " + TABLE + (categoria.equals("ninguno") ? "" : " WHERE fk_categoria = (SELECT id FROM categorias WHERE nombre = ?)");
 
-        String[] vals = {categoria};
+        ResultSet resultSet;
 
-        ResultSet resultSet = Database.getInstanse().query(sql, vals);
+        if (!categoria.equals("ninguno")) {
+            String[] vals = {categoria};
+            resultSet = Database.getInstanse().query(sql, vals);
+        } else {
+            resultSet = Database.getInstanse().query(sql);
+        }
 
-        ArrayList<Libro> res = new ArrayList<>(cantidad);
+        ArrayList<Libro> res = new ArrayList<>();
 
         for (int i = 0; resultSet.next(); i++) {
             int id = resultSet.getInt("id");
@@ -34,59 +39,30 @@ public class ControllerLibro {
             String title = resultSet.getString("titulo");
             String description = resultSet.getString("descripcion");
             String content = resultSet.getString("contenido");
-            int cantidadDeClasificacion = resultSet.getInt("cantidadDeClasificacion");
             int pages = resultSet.getInt("paginas");
             float clasification = resultSet.getFloat("clasificacion");
-            int fkCategory = resultSet.getInt("fk_categoria ");
-            int fkAuthor = resultSet.getInt("fk_autor ");
+            int fkCategory = resultSet.getInt("fk_categoria");
+            int fkAuthor = resultSet.getInt("fk_autor");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, cantidadDeClasificacion, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
         }
 
         return res;
     }
 
-    public ArrayList<Libro> verCatalogoBase(int cantidad) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE + " LIMIT " + cantidad;
+    public ArrayList<Libro> buscarLibrosBase(String categoria, String search) throws SQLException {
+        String sql = "SELECT * FROM " + TABLE + " WHERE (titulo LIKE(?)" + " OR descripcion LIKE(?))" + ((categoria.equals("ninguno") ? "" : " AND fk_categoria = (SELECT id FROM categorias WHERE nombre = ?)"));
 
-        ResultSet resultSet = Database.getInstanse().query(sql);
+        String[] vals;
 
-        ArrayList<Libro> res = new ArrayList<>(cantidad);
-
-        for (int i = 0; resultSet.next(); i++) {
-            int id = resultSet.getInt("id");
-            String cover = resultSet.getString("portada");
-            int stock = resultSet.getInt("stock");
-            float precio = resultSet.getFloat("precio");
-            String title = resultSet.getString("titulo");
-            String description = resultSet.getString("descripcion");
-            String content = resultSet.getString("contenido");
-            int cantidadDeClasificacion = resultSet.getInt("cantidadDeClasificacion");
-            int pages = resultSet.getInt("paginas");
-            float clasification = resultSet.getFloat("clasificacion");
-            int fkCategory = resultSet.getInt("fk_categoria ");
-            int fkAuthor = resultSet.getInt("fk_autor ");
-
-            res.add(new Libro(id, cover, precio, stock, title, description, content, cantidadDeClasificacion, pages, clasification, fkCategory, fkAuthor));
-        }
-
-        return res;
-    }
-
-    public ArrayList<Libro> buscarLibrosBase(String search) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE + " WHERE title LIKE(%?%)" + " OR descripcion LIKE(%?%)";
-
-        String[] vals = {search, search};
+        if (categoria.equals("ninguno")) vals = new String[]{"%" + search + "%", "%" + search + "%"};
+        else vals = new String[]{"%" + search + "%", "%" + search + "%", categoria};
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
-        int len = resultSet.getMetaData().getColumnCount();
+        ArrayList<Libro> res = new ArrayList<>();
 
-        if (len <= 0) return null;
-
-        ArrayList<Libro> res = new ArrayList<>(len);
-
-        for (int i = 0; resultSet.next(); i++) {
+        while (resultSet.next()) {
             int id = resultSet.getInt("id");
             String cover = resultSet.getString("portada");
             int stock = resultSet.getInt("stock");
@@ -94,13 +70,12 @@ public class ControllerLibro {
             String title = resultSet.getString("titulo");
             String description = resultSet.getString("descripcion");
             String content = resultSet.getString("contenido");
-            int cantidadDeClasificacion = resultSet.getInt("cantidadDeClasificacion");
             float clasification = resultSet.getFloat("clasificacion");
             int pages = resultSet.getInt("paginas");
-            int fkCategory = resultSet.getInt("fk_categoria ");
-            int fkAuthor = resultSet.getInt("fk_autor ");
+            int fkCategory = resultSet.getInt("fk_categoria");
+            int fkAuthor = resultSet.getInt("fk_autor");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, cantidadDeClasificacion, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
         }
 
         return res;
@@ -174,13 +149,12 @@ public class ControllerLibro {
             String title = resultSet.getString("titulo");
             String description = resultSet.getString("descripcion");
             String content = resultSet.getString("contenido");
-            int cantidadDeClasificacion = resultSet.getInt("cantidadDeClasificacion");
             int pages = resultSet.getInt("paginas");
             float clasification = resultSet.getFloat("clasificacion");
             int fkCategory = resultSet.getInt("fk_categoria");
             int fkAuthor = resultSet.getInt("fk_autor ");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, cantidadDeClasificacion, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
         }
 
         return res;

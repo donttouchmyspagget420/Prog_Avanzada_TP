@@ -61,11 +61,12 @@ public class Venta {
             int option = JOptionPane.showOptionDialog(null, "metodo de pago", "elegir", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, metodos, metodos[0]);
             int cantidad = Integer.valueOf(JOptionPane.showInputDialog("cantidad?"));
 
-            if ((option < 0 && option > metodos.length) || cantidad < 0) throw new Exception();
+            if ((option < 0 && option > metodos.length) || cantidad < 0)
+                throw new Exception("no se puede comprar " + cantidad + " libros");
+
+            if (Libro.actualizarStock(libroId, cantidad) < 0) return -1;
 
             int ventaId = controller.comprarLibro(userId, libroId, cantidad, metodos[option]);
-
-            System.out.println(ventaId);
 
             return controller.procesarPago(ventaId);
         } catch (Exception e) {

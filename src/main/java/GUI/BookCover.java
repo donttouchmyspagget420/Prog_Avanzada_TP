@@ -14,10 +14,10 @@ public class BookCover extends JPanel {
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
         this.add(cover);
         this.add(title);
+
+        setPreferredSize(new Dimension(240, 339));
 
         title.addActionListener(e -> {
             StateManager.setVisible(false);

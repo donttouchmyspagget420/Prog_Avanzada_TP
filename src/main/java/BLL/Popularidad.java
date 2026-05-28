@@ -18,9 +18,9 @@ public abstract class Popularidad {
 
     public static void calcularPopularidad() {
         try {
-            ArrayList<Libro> libros = controller.calcularPopularidadBase();
+            topLibros = controller.calcularPopularidadBase();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "no puede calcular la popularidad: " + ",razon\n" + e.getMessage());
+            System.out.println("no puede calcular la popularidad: " + "razon\n" + e.getMessage());
         }
     }
 }

@@ -9,9 +9,9 @@ public abstract class StateManager {
     private static JFrame currentPage;
 
     public enum paginas {
-        START("Quitar la cuenta"),
         HOME("Home"),
-        CATALOG("Catálogo");
+        CATALOG("Catálogo"),
+        START("Quitar la cuenta");
 
         private String frame;
 

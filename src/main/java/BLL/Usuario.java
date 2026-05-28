@@ -1,5 +1,7 @@
 package BLL;
 
+import Utils.PlatformManager;
+
 public abstract class Usuario {
     private int id;
     private String correo;
@@ -59,7 +61,7 @@ public abstract class Usuario {
     }
 
     public String getPfp() {
-        return pfp;
+        return PlatformManager.getPathImgs() + pfp;
     }
 
     public void setPfp(String pfp) {

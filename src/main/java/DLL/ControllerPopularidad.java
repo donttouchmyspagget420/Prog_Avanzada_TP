@@ -22,13 +22,12 @@ public class ControllerPopularidad {
             String title = resultSet.getString("titulo");
             String description = resultSet.getString("descripcion");
             String content = resultSet.getString("contenido");
-            int cantidadDeClasificacion = resultSet.getInt("cantidadDeClasificacion");
             int pages = resultSet.getInt("paginas");
             float clasification = resultSet.getFloat("clasificacion");
             int fkCategory = resultSet.getInt("fk_categoria");
-            int fkAuthor = resultSet.getInt("fk_autor ");
+            int fkAuthor = resultSet.getInt("fk_autor");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, cantidadDeClasificacion, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
         }
 
         return res;
