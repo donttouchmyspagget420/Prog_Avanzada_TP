@@ -2,6 +2,7 @@ package DLL;
 
 import BLL.Venta;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -33,17 +34,13 @@ public class ControllerVenta {
     }
 
     public ArrayList<Venta> verHistorialComprasBase(int userId) throws SQLException {
-        String sql = "SELECT * FROM " + TABLE + " WHERE fk_usuario = ?";
+        String sql = "SELECT * FROM " + TABLE + " WHERE fk_usuario = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(userId)};
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
-        int len = resultSet.getMetaData().getColumnCount();
-
-        if (len < 0) return null;
-
-        ArrayList<Venta> res = new ArrayList<Venta>(len);
+        ArrayList<Venta> res = new ArrayList<>();
 
         for (int i = 0; resultSet.next(); i++) {
             int id = resultSet.getInt("id");
@@ -53,7 +50,7 @@ public class ControllerVenta {
             float total = resultSet.getFloat("total");
             String metodoPago = resultSet.getString("metodoPago");
             String estado = resultSet.getString("estado");
-            LocalDate fecha = (LocalDate) resultSet.getObject("fecha");
+            Date fecha = (Date) resultSet.getObject("fecha");
 
             res.add(new Venta(id, cantidad, total, metodoPago, estado, fecha, fkLibro, fkUsuario));
         }
@@ -83,7 +80,7 @@ public class ControllerVenta {
     }
 
     public String generarFacturaBase(int fkLibro, int fkCliente) throws SQLException {
-        String sql = "SELECT titulo FROM " + ControllerLibro.TABLE + " WHERE = ?";
+        String sql = "SELECT titulo FROM " + ControllerLibro.TABLE + " WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(fkLibro)};
 
@@ -93,7 +90,7 @@ public class ControllerVenta {
 
         String titulo = resultSet.getString("titulo");
 
-        sql = "SELECT correo FROM " + ControllerLibro.TABLE + " WHERE = ?";
+        sql = "SELECT correo FROM " + ControllerCliente.TABLE + " WHERE id = CAST(? AS INT)";
 
         vals = new String[]{String.valueOf(fkCliente)};
 

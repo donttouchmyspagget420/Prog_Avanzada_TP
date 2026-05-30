@@ -25,9 +25,8 @@ public class ControllerPopularidad {
             int pages = resultSet.getInt("paginas");
             float clasification = resultSet.getFloat("clasificacion");
             int fkCategory = resultSet.getInt("fk_categoria");
-            int fkAuthor = resultSet.getInt("fk_autor");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory));
         }
 
         return res;

@@ -25,7 +25,7 @@ public class CatalogFrame extends JFrame {
         JButton buscar = new JButton("Buscar");
         JPanel headWrappper = new JPanel();
 
-        imgsWrapper = new JPanel(new GridLayout(0, COLUMNS, 20, 20));
+        imgsWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
 
         search = new TextField("buscar");
 
@@ -63,6 +63,8 @@ public class CatalogFrame extends JFrame {
         setVisible(true);
         setSize(1000, 1000);
         setResizable(false);
+
+        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getComponent(0).getWidth() * COLUMNS, imgsWrapper.getComponent(0).getHeight() * COLUMNS * (imgsWrapper.getComponentCount() / COLUMNS)));
 
         dropdown.addActionListener(e -> {
             showImages(dropdown.getSelectedItem().toString());
@@ -106,6 +108,8 @@ public class CatalogFrame extends JFrame {
             imgsWrapper.add(new BookCover(libro));
         }
 
+
+        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getComponent(0).getWidth() * COLUMNS, imgsWrapper.getComponent(0).getHeight() * COLUMNS * (imgsWrapper.getComponentCount() / COLUMNS)));
         imgsWrapper.revalidate();
         imgsWrapper.repaint();
     }
@@ -126,6 +130,8 @@ public class CatalogFrame extends JFrame {
             imgsWrapper.add(new BookCover(libro));
         }
 
+
+        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getComponent(0).getWidth() * COLUMNS, imgsWrapper.getComponent(0).getHeight() * COLUMNS * (imgsWrapper.getComponentCount() / COLUMNS)));
         imgsWrapper.revalidate();
         imgsWrapper.repaint();
     }

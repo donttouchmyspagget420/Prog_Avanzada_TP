@@ -21,9 +21,8 @@ public class Libro {
     private int paginas;
     private float clasificacion;
     private int fkCategoria;
-    private int fkAutor;
 
-    public Libro(int id, String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria, int fkAutor) {
+    public Libro(int id, String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria) {
         this.id = id;
         this.portada = portada;
         this.precio = precio;
@@ -34,7 +33,6 @@ public class Libro {
         this.paginas = paginas;
         this.clasificacion = clasificacion;
         this.fkCategoria = fkCategoria;
-        this.fkAutor = fkAutor;
     }
 
     public static int actualizarStock(int libroId, int cantidad) {
@@ -85,7 +83,7 @@ public class Libro {
         }
     }
 
-    public ArrayList<Libro> verHistorialLecturas() {
+    public static ArrayList<Libro> verHistorialLecturas() {
         int userId = Cliente.getSession().getId();
 
         try {
@@ -165,10 +163,6 @@ public class Libro {
 
     public int getFkCategoria() {
         return fkCategoria;
-    }
-
-    public int getFkAutor() {
-        return fkAutor;
     }
 
     public int getId() {

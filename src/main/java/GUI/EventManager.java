@@ -16,6 +16,7 @@ public class EventManager implements ActionListener {
         return eventManager;
     }
 
+    //wtf is this it needs cleanup
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();

@@ -42,9 +42,8 @@ public class ControllerLibro {
             int pages = resultSet.getInt("paginas");
             float clasification = resultSet.getFloat("clasificacion");
             int fkCategory = resultSet.getInt("fk_categoria");
-            int fkAuthor = resultSet.getInt("fk_autor");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory));
         }
 
         return res;
@@ -73,9 +72,8 @@ public class ControllerLibro {
             float clasification = resultSet.getFloat("clasificacion");
             int pages = resultSet.getInt("paginas");
             int fkCategory = resultSet.getInt("fk_categoria");
-            int fkAuthor = resultSet.getInt("fk_autor");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory));
         }
 
         return res;
@@ -124,18 +122,16 @@ public class ControllerLibro {
         return Database.getInstanse().update(sql, vals);
     }
 
-    private ArrayList<Libro> verLibrosBaseHelper(int[] ids) throws SQLException {
-        String vals = "";
+    private ArrayList<Libro> verLibrosBaseHelper(ArrayList<Integer> ids) throws SQLException {
+        if (ids == null || ids.size() == 0) return null;
 
-        for (int id : ids) {
-            vals = vals + "," + String.valueOf(id);
-        }
+        String vals = ids.toString().substring(1, ids.toString().length() - 1);
 
         String sql = "SELECT * FROM " + ControllerLibro.TABLE + " WHERE id IN (" + vals + ")";
 
         ResultSet resultSet = Database.getInstanse().query(sql);
 
-        ArrayList<Libro> res = new ArrayList<>(ids.length);
+        ArrayList<Libro> res = new ArrayList<>(ids.size());
 
         int len = resultSet.getMetaData().getColumnCount();
 
@@ -152,31 +148,26 @@ public class ControllerLibro {
             int pages = resultSet.getInt("paginas");
             float clasification = resultSet.getFloat("clasificacion");
             int fkCategory = resultSet.getInt("fk_categoria");
-            int fkAuthor = resultSet.getInt("fk_autor ");
 
-            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory, fkAuthor));
+            res.add(new Libro(id, cover, precio, stock, title, description, content, pages, clasification, fkCategory));
         }
 
         return res;
     }
 
     public ArrayList<Libro> verHistorialLecturasBase(int userId) throws SQLException {
-        String sql = "SELECT fk_libro FROM historialLectoras WHERE fk_usuario = ?";
+        String sql = "SELECT fk_libro FROM historialLectoras WHERE fk_usuario = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(userId)};
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
-        int len = resultSet.getMetaData().getColumnCount();
-
-        if (len < 0) return null;
-
-        int[] res = new int[len];
+        ArrayList<Integer> res = new ArrayList<>();
 
         for (int i = 0; resultSet.next(); i++) {
             int id = resultSet.getInt("fk_libro");
 
-            res[i] = id;
+            res.add(id);
         }
 
         return verLibrosBaseHelper(res);
@@ -222,8 +213,10 @@ public class ControllerLibro {
     }
 
     public Libro getByIdBase(int libroId) throws SQLException {
-        ArrayList<Libro> libros = verLibrosBaseHelper(new int[]{libroId});
+        ArrayList<Integer> ids = new ArrayList<>();
 
-        return libros.get(0);
+        ids.add(libroId);
+
+        return verLibrosBaseHelper(ids).get(0);
     }
 }

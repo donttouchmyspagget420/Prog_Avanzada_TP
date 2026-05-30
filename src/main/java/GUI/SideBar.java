@@ -24,7 +24,6 @@ class SideBar extends JPanel {
         setLayout(new BorderLayout());
 
         itemsUpdate();
-        userGet();
 
         this.add(wrapper, BorderLayout.CENTER);
         this.add(userWrapper, BorderLayout.NORTH);
@@ -35,6 +34,11 @@ class SideBar extends JPanel {
         Color bgColor = this.getBackground();
 
         for (StateManager.paginas option : options) {
+            if (StateManager.paginas.PROFILE == option) {
+                userGet();
+                continue;
+            }
+
             ButtonLink btn = new ButtonLink(option.getFrameName(), bgColor, BorderFactory.createEmptyBorder(10, 0, 10, 100));
 
             wrapper.add(btn);
@@ -54,5 +58,9 @@ class SideBar extends JPanel {
 
         userWrapper.add(pic);
         userWrapper.add(name);
+
+        name.addActionListener(e -> {
+            StateManager.setPagina(StateManager.paginas.PROFILE);
+        });
     }
 }

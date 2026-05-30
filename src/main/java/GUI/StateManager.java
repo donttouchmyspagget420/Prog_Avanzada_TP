@@ -9,6 +9,7 @@ public abstract class StateManager {
     private static JFrame currentPage;
 
     public enum paginas {
+        PROFILE("Perfil"),
         HOME("Home"),
         CATALOG("Catálogo"),
         START("Quitar la cuenta");
@@ -27,6 +28,7 @@ public abstract class StateManager {
     public static void setPagina(paginas pagina) {
         if (currentPage != null) currentPage.dispose();
         switch (pagina) {
+            case paginas.PROFILE -> currentPage = new ProfileFrame();
             case paginas.START -> {
                 Cliente.setSession(null);
                 Empleado.setSession(null);

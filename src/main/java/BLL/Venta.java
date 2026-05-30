@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.sql.Date;
 
 public class Venta {
     private static ControllerVenta controller = new ControllerVenta();
@@ -15,11 +16,11 @@ public class Venta {
     private double total;
     private String estado;
     private String metodoPago;
-    private LocalDate fecha;
+    private Date fecha;
     private int fkLibro;
     private int fkUsuario;
 
-    public Venta(int id, int cantidad, double total, String estado, String metodoPago, LocalDate fecha, int fkLibro, int fkUsuario) {
+    public Venta(int id, int cantidad, double total, String estado, String metodoPago, Date fecha, int fkLibro, int fkUsuario) {
         this.id = id;
         this.cantidad = cantidad;
         this.total = total;
@@ -41,16 +42,25 @@ public class Venta {
         }
     }
 
-    public ArrayList<Venta> verHistorialCompras() {
+    public static ArrayList<String> verHistorialCompras() {
         int userId = Cliente.getSession().getId();
-        ArrayList<Venta> res;
+        ArrayList<Venta> ventas;
+        ArrayList<String> res = new ArrayList<>();
 
         try {
-            return controller.verHistorialComprasBase(userId);
+            ventas = controller.verHistorialComprasBase(userId);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "no puede ver el historial de compras, razon:\n" + e.getMessage());
             return null;
         }
+
+        if (ventas == null || ventas.size() == 0) return null;
+
+        for (Venta venta : ventas) {
+            res.add(venta.toString());
+        }
+
+        return res;
     }
 
     public static int comprarLibro(int libroId) {

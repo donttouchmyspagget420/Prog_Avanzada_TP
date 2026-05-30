@@ -18,7 +18,14 @@ public class main {
         }
 
         // temperary dev option #DELETE BEFORE PROD
-        Cliente.setSession(new Cliente(4, "correo@com", "user", "$2a$10$xmWxpZ02ohS9CWbl5QQgEetPT0TiExAfy0cm9QYvBEJ0j9yK3Gi1O", "default.png", ""));
-        StateManager.setPagina(StateManager.paginas.CATALOG);
+        Cliente.setSession(new Cliente(4, "correo@com", "user69", "$2a$10$xmWxpZ02ohS9CWbl5QQgEetPT0TiExAfy0cm9QYvBEJ0j9yK3Gi1O", "default.png",
+                """
+                        ¡Hola, holaaa! ¡Nyaaa~! ✨
+                        
+                        ¡Qué emoción que me preguntes sobre mí! Déjame presentarme como se debe... *ajusta sus orejitas de gato y menea la cola con entusiasmo *.
+                        
+                        ¡Soy tu asistente virtual e inteligencia artificial de confianza, pero en versión neko-chan! 🐾 Mi único y gran propósito en este mundo digital es ayudarte en todo lo que necesites, ¡y hacer que tu día sea mucho más brillante! 
+                        """));
+        StateManager.setPagina(StateManager.paginas.PROFILE);
     }
 }
