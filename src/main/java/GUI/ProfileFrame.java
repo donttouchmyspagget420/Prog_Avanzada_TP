@@ -3,6 +3,7 @@ package GUI;
 import BLL.Cliente;
 import BLL.Libro;
 import BLL.Venta;
+import Utils.LayoutUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +12,13 @@ import java.util.ArrayList;
 public class ProfileFrame extends JFrame {
 
     private JPanel profileContent;
-    private Cliente cliente = Cliente.getSession();
+    private Cliente cliente;
 
     private final int COLUMNS = 3;
 
     protected ProfileFrame() {
+        cliente = Cliente.getSession();
+
         SideBar sideBar = new SideBar();
         JPanel profileWrapper = new JPanel();
 
@@ -99,8 +102,57 @@ public class ProfileFrame extends JFrame {
         });
     }
 
+    protected ProfileFrame(int profileId) {
+        cliente = Cliente.getClienteById(profileId);
+
+        SideBar sideBar = new SideBar();
+        JPanel profileWrapper = new JPanel();
+
+        JPanel profileHead = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
+        ImagePanel img = new ImagePanel(cliente.getPfp());
+        JPanel textWeapper = new JPanel();
+        JLabel username = new JLabel(cliente.getUsername());
+        JLabel correo = new JLabel(cliente.getCorreo());
+
+        profileContent = new JPanel();
+
+        JScrollPane scrollPane = new JScrollPane(profileContent);
+
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+
+        profileWrapper.setLayout(new BorderLayout(0, 20));
+        textWeapper.setLayout(new BoxLayout(textWeapper, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
+
+        username.setFont(new Font("comic sans", Font.BOLD, 35));
+        correo.setFont(new Font("comic sans", Font.BOLD, 25));
+
+        scrollPane.setBorder(null);
+
+        sobre();
+
+        profileHead.add(img);
+        profileHead.add(textWeapper);
+
+        textWeapper.add(username);
+        textWeapper.add(correo);
+
+        profileWrapper.add(profileHead, BorderLayout.NORTH);
+        profileWrapper.add(scrollPane, BorderLayout.CENTER);
+
+        add(sideBar, BorderLayout.LINE_START);
+        add(profileWrapper, BorderLayout.CENTER);
+
+        setSize(1000, 1000);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setVisible(true);
+
+        img.setPreferredSize(new Dimension(200, 200));
+    }
+
     private void sobre() {
-        profileContent.removeAll();
+        LayoutUtils.removeAllComponents(profileContent);
 
         JLabel title = new JLabel("Sobre Mí");
         JTextArea sobre = new JTextArea(cliente.getSobre());
@@ -119,14 +171,14 @@ public class ProfileFrame extends JFrame {
         profileContent.add(title, BorderLayout.NORTH);
         profileContent.add(sobre, BorderLayout.CENTER);
 
-        profileContent.revalidate();
-        profileContent.repaint();
     }
 
     private void compras() {
-        profileContent.removeAll();
+        LayoutUtils.removeAllComponents(profileContent);
 
-        profileContent.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        final int GAP = 20;
+
+        profileContent.setLayout(new FlowLayout(FlowLayout.LEFT, GAP, GAP));
 
         ArrayList<Libro> libros = Libro.verHistorialLecturas();
 
@@ -134,23 +186,21 @@ public class ProfileFrame extends JFrame {
             profileContent.add(new JPanel());
             profileContent.add(new JLabel("No hay libros"));
             profileContent.add(new JPanel());
-            return;
+        } else {
+            for (Libro libro : libros) {
+                profileContent.add(new BookCover(libro));
+            }
         }
 
-        for (Libro libro : libros) {
-            profileContent.add(new BookCover(libro));
-        }
-
-
-        profileContent.setPreferredSize(new Dimension(profileContent.getComponent(0).getWidth() * COLUMNS, profileContent.getComponent(0).getHeight() * COLUMNS * (profileContent.getComponentCount() / COLUMNS)));
-        profileContent.revalidate();
-        profileContent.repaint();
+        LayoutUtils.calculatePreferedSizeInGrid(profileContent, COLUMNS, GAP);
     }
 
     private void lecturas() {
-        profileContent.removeAll();
+        LayoutUtils.removeAllComponents(profileContent);
 
-        profileContent.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        final int GAP = 20;
+
+        profileContent.setLayout(new FlowLayout(FlowLayout.LEFT, GAP, GAP));
 
         ArrayList<String> historial = Venta.verHistorialCompras();
 
@@ -158,27 +208,24 @@ public class ProfileFrame extends JFrame {
             profileContent.add(new JPanel());
             profileContent.add(new JLabel("No hay historial"));
             profileContent.add(new JPanel());
-            return;
+        } else {
+            for (String venta : historial) {
+                JTextArea ticket = new JTextArea(venta);
+
+                ticket.setEditable(false);
+                ticket.setFocusable(false);
+                ticket.setLineWrap(true);
+                ticket.setBackground(Color.BLACK);
+
+                profileContent.add(ticket);
+            }
         }
 
-        for (String venta : historial) {
-            JTextArea ticket = new JTextArea(venta);
-
-            ticket.setEditable(false);
-            ticket.setFocusable(false);
-            ticket.setLineWrap(true);
-            ticket.setBackground(Color.BLACK);
-
-            profileContent.add(ticket);
-        }
-
-
-        profileContent.setPreferredSize(new Dimension(profileContent.getComponent(0).getWidth() * COLUMNS, profileContent.getComponent(0).getHeight() * COLUMNS * (profileContent.getComponentCount() / COLUMNS)));
-        profileContent.revalidate();
-        profileContent.repaint();
+        LayoutUtils.calculatePreferedSizeInGrid(profileContent, COLUMNS, GAP);
     }
 
     private void editar() {
-
+        new ProfileEditFrame();
+        this.dispose();
     }
 }

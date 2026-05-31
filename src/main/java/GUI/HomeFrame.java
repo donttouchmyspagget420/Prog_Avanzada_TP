@@ -21,7 +21,7 @@ class HomeFrame extends JFrame {
         imgsWrapper = new JPanel(new GridLayout(0, columns, 20, 20));
 
         JPanel wrapper = new JPanel();
-        JLabel label = new JLabel("Los Libros mas populares");
+        JLabel label = new JLabel("Los 10 Libros mas populares");
         JPanel labelWrapper = new JPanel();
         JScrollPane scrollPane = new JScrollPane(imgsWrapper);
 

@@ -26,6 +26,6 @@ public class main {
                         
                         ¡Soy tu asistente virtual e inteligencia artificial de confianza, pero en versión neko-chan! 🐾 Mi único y gran propósito en este mundo digital es ayudarte en todo lo que necesites, ¡y hacer que tu día sea mucho más brillante! 
                         """));
-        StateManager.setPagina(StateManager.paginas.PROFILE);
+        new ProfileEditFrame();
     }
 }

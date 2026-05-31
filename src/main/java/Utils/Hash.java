@@ -11,5 +11,4 @@ public interface Hash {
     static boolean verificar(String password, String hash) {
         return BCrypt.checkpw(password, hash);
     }
-
 }

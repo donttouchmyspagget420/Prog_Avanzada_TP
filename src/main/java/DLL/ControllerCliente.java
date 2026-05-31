@@ -58,4 +58,25 @@ public class ControllerCliente {
         return new Cliente(id, correo, username, hash, pfp, about);
     }
 
+    public Cliente getClienteByIdBase(int profileId) throws SQLException {
+        String sql = "SELECT * FROM " + TABLE + " WHERE id = CAST(? AS INT)";
+
+        String[] vals = {String.valueOf(profileId)};
+
+        ResultSet resultSet = Database.getInstanse().query(sql, vals);
+
+        if (!resultSet.next()) return null;
+
+        int id = resultSet.getInt("id");
+        String correo = resultSet.getString("correo");
+        String username = resultSet.getString("username");
+        String contrasena = resultSet.getString("contrasena");
+        String pfp = resultSet.getString("pfp");
+        String sobre = resultSet.getString("sobre");
+
+        return new Cliente(id, correo, username, contrasena, pfp, sobre);
+    }
+
+    }
 }
+

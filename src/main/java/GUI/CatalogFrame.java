@@ -2,6 +2,7 @@ package GUI;
 
 import BLL.Categorias;
 import BLL.Libro;
+import Utils.LayoutUtils;
 import Utils.PlatformManager;
 
 import javax.swing.*;
@@ -19,13 +20,14 @@ public class CatalogFrame extends JFrame {
     private JScrollPane scrollPane;
 
     private final int COLUMNS = 3;
+    private final int GAP = 20;
 
     protected CatalogFrame() {
         JPanel head = new JPanel(new BorderLayout());
         JButton buscar = new JButton("Buscar");
         JPanel headWrappper = new JPanel();
 
-        imgsWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        imgsWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, GAP, GAP));
 
         search = new TextField("buscar");
 
@@ -64,7 +66,7 @@ public class CatalogFrame extends JFrame {
         setSize(1000, 1000);
         setResizable(false);
 
-        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getComponent(0).getWidth() * COLUMNS, imgsWrapper.getComponent(0).getHeight() * COLUMNS * (imgsWrapper.getComponentCount() / COLUMNS)));
+        LayoutUtils.calculatePreferedSizeInGrid(imgsWrapper, COLUMNS, GAP);
 
         dropdown.addActionListener(e -> {
             showImages(dropdown.getSelectedItem().toString());
@@ -82,7 +84,10 @@ public class CatalogFrame extends JFrame {
 
         categorias = arr.toArray(new String[0]);
 
-        if (categorias == null) return;
+        if (categorias == null) {
+            dropdown = new JComboBox<>(new String[]{"ninguno"});
+            return;
+        }
 
         dropdown = new JComboBox<>(categorias);
 
@@ -91,7 +96,7 @@ public class CatalogFrame extends JFrame {
     }
 
     private void showImages(String categoria) {
-        imgsWrapper.removeAll();
+        LayoutUtils.removeAllComponents(imgsWrapper);
 
         ArrayList<Libro> libros = Libro.verCatalogo(categoria);
 
@@ -101,38 +106,31 @@ public class CatalogFrame extends JFrame {
             imgsWrapper.add(new JPanel());
             imgsWrapper.add(new JLabel("No hay libros"));
             imgsWrapper.add(new JPanel());
-            return;
+        } else {
+            for (Libro libro : libros) {
+                imgsWrapper.add(new BookCover(libro));
+            }
         }
 
-        for (Libro libro : libros) {
-            imgsWrapper.add(new BookCover(libro));
-        }
-
-
-        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getComponent(0).getWidth() * COLUMNS, imgsWrapper.getComponent(0).getHeight() * COLUMNS * (imgsWrapper.getComponentCount() / COLUMNS)));
-        imgsWrapper.revalidate();
-        imgsWrapper.repaint();
+        LayoutUtils.calculatePreferedSizeInGrid(imgsWrapper, COLUMNS, GAP);
     }
 
 
     private void showImagesBuscar(String categoria, String search) {
-        imgsWrapper.removeAll();
+        LayoutUtils.removeAllComponents(imgsWrapper);
+
         ArrayList<Libro> libros = Libro.buscarLibros(categoria, search);
 
         if (libros == null || libros.size() == 0) {
             imgsWrapper.add(new JPanel());
             imgsWrapper.add(new JLabel("No hay libros"));
             imgsWrapper.add(new JPanel());
-            return;
+        } else {
+            for (Libro libro : libros) {
+                imgsWrapper.add(new BookCover(libro));
+            }
         }
 
-        for (Libro libro : libros) {
-            imgsWrapper.add(new BookCover(libro));
-        }
-
-
-        imgsWrapper.setPreferredSize(new Dimension(imgsWrapper.getComponent(0).getWidth() * COLUMNS, imgsWrapper.getComponent(0).getHeight() * COLUMNS * (imgsWrapper.getComponentCount() / COLUMNS)));
-        imgsWrapper.revalidate();
-        imgsWrapper.repaint();
+        LayoutUtils.calculatePreferedSizeInGrid(imgsWrapper, COLUMNS, GAP);
     }
 }

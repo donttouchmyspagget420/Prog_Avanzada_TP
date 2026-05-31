@@ -14,7 +14,7 @@ public class Comment extends JPanel {
         String username = "", img = "";
 
         if (author != null) {
-            username = author.get("btnUsername");
+            username = author.get("username");
             img = author.get("pfp");
         }
 
@@ -51,5 +51,10 @@ public class Comment extends JPanel {
 
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
         pfp.setPreferredSize(new Dimension(50, 50));
+
+        btnUsername.addActionListener(e -> {
+            StateManager.setPagina(null);
+            new ProfileFrame(comentario.getFkAutor());
+        });
     }
 }

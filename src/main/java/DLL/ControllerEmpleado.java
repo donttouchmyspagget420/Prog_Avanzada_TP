@@ -92,7 +92,7 @@ public class ControllerEmpleado {
         return Database.getInstanse().update(sql, vals);
     }
 
-    public int modificarClienteBase(int userId, String correo, String username, String contrasena, String pfp, String sobre) throws SQLException {
+    public static int modificarClienteBase(int userId, String correo, String username, String contrasena, String pfp, String sobre) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET correo = ?, username = ?, contrasena = ?, pfp = ?, sobre = ? WHERE id = ?";
 
         String hash = Hash.hash(contrasena);

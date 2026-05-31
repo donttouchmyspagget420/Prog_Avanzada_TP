@@ -65,5 +65,7 @@ public class Comentario {
         return contenido;
     }
 
-
+    public int getFkAutor() {
+        return fkAutor;
+    }
 }

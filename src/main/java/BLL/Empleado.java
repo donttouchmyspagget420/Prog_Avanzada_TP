@@ -124,7 +124,7 @@ public class Empleado extends Usuario {
         return res;
     }
 
-    public int modificarCliente(int userId, String correo, String username, String contrasena, String pfp, String sobre) {
+    public static int modificarCliente(int userId, String correo, String username, String contrasena, String pfp, String sobre) {
         int res;
         try {
             res = controller.modificarClienteBase(userId, correo, username, contrasena, pfp, sobre);

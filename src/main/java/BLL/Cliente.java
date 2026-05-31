@@ -1,7 +1,9 @@
 package BLL;
 
 import DLL.ControllerCliente;
+import DLL.ControllerEmpleado;
 import GUI.StateManager;
+import Utils.Hash;
 import Utils.Validator;
 
 import javax.swing.JOptionPane;
@@ -81,5 +83,30 @@ public class Cliente extends Usuario {
         return 0;
     }
 
+    public static Cliente getClienteById(int profileId) {
+        try {
+            return controller.getClienteByIdBase(profileId);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "No puede obtener informacion, razon:\n" + e.getMessage());
+            return null;
+        }
+    }
 
+    public int cambiarProfile(String contrasena, String correo, String username, String nuevaContrasena, String pfp, String sobre) {
+        try {
+            if (!Hash.verificar(contrasena, this.getContrasena())) throw new Exception("la contraseña no es correcta");
+
+            if (ControllerEmpleado.modificarClienteBase(session.getId(), correo, username, nuevaContrasena, pfp, sobre) <= 0)
+                throw new Exception("Los datos son incorrectos");
+
+            session = controller.getClienteByIdBase(session.getId());
+
+            if (session == null) throw new Exception("Los datos son incorrectos");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "no puede cambiar el perfil, rezon: " + e.getMessage());
+            return -1;
+        }
+
+        return 1;
+    }
 }

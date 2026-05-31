@@ -27,6 +27,8 @@ public abstract class StateManager {
 
     public static void setPagina(paginas pagina) {
         if (currentPage != null) currentPage.dispose();
+        if (pagina == null) return;
+
         switch (pagina) {
             case paginas.PROFILE -> currentPage = new ProfileFrame();
             case paginas.START -> {
