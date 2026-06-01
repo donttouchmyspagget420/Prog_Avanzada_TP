@@ -138,7 +138,7 @@ public class Libro {
     }
 
     public String getPortada() {
-        return PlatformManager.getPathImgs() + portada;
+        return portada;
     }
 
     public String getTitulo() {

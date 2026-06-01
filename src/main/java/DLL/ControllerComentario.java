@@ -35,7 +35,7 @@ public class ControllerComentario {
         String pfp = resultSet.getString("pfp");
 
         map.put("username", username);
-        map.put("pfp", PlatformManager.getPathImgs() + pfp);
+        map.put("pfp", pfp);
 
         return map;
     }

@@ -3,6 +3,7 @@ package DLL;
 import BLL.Empleado;
 import Utils.Hash;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -34,16 +35,16 @@ public class ControllerEmpleado {
         return new Empleado(id, correo, username, hash, pfp, about);
     }
 
-    public int crearVentaBase(int cantidad, double total, String estado, String metodoPago, LocalDate fecha, int fkLibro, int fkUsuario) throws SQLException {
-        String sql = "INSERT INTO " + ControllerVenta.TABLE + "(cantidad,total,estado,metodoPago,fecha,fk_libro,fk_usuario) VALUES(?,?,?,?,?,?,?)";
+    public int crearVentaBase(int cantidad, float total, String estado, String metodoPago, Date fecha, int fkLibro, int fkUsuario) throws SQLException {
+        String sql = "INSERT INTO " + ControllerVenta.TABLE + "(cantidad,total,estado,metodoPago,fecha,fk_libro,fk_usuario) VALUES(CAST(? AS INT),CAST(? AS FLOAT),?,?,CAST(? AS DATE),CAST(? AS INT),CAST(? AS INT))";
 
         String[] vals = {String.valueOf(cantidad), String.valueOf(total), estado, metodoPago, String.valueOf(fecha), String.valueOf(fkLibro), String.valueOf(fkUsuario)};
 
         return Database.getInstanse().update(sql, vals);
     }
 
-    public int modificarVentaBase(int ventaId, int cantidad, double total, String estado, String metodoPago, LocalDate fecha, int fkLibro, int fkUsuario) throws SQLException {
-        String sql = "UPDATE " + ControllerVenta.TABLE + " SET cantidad = ?,total = ?,estado = ?,metodoPago = ?,fecha = ?,fk_libro = ?,fk_usuario = ? WHERE id = ?";
+    public int modificarVentaBase(int ventaId, int cantidad, float total, String estado, String metodoPago, Date fecha, int fkLibro, int fkUsuario) throws SQLException {
+        String sql = "UPDATE " + ControllerVenta.TABLE + " SET cantidad = CAST(? AS INT),total = CAST(? AS FLOAT),estado = ?,metodoPago = ?,fecha = CAST(? AS DATE),fk_libro = CAST(? AS INT),fk_usuario = CAST(? AS INT) WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(cantidad), String.valueOf(total), estado, metodoPago, String.valueOf(fecha), String.valueOf(fkLibro), String.valueOf(fkUsuario), String.valueOf(ventaId)};
 
@@ -51,7 +52,7 @@ public class ControllerEmpleado {
     }
 
     public int eliminarVentaBase(int ventaId) throws SQLException {
-        String sql = "DELETE FROM " + ControllerVenta.TABLE + " WHERE id = ?";
+        String sql = "DELETE FROM " + ControllerVenta.TABLE + " WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(ventaId)};
 
@@ -67,7 +68,7 @@ public class ControllerEmpleado {
     }
 
     public int modificarLibroBase(int libroId, String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria, int fkAutor) throws SQLException {
-        String sql = "UPDATE " + ControllerLibro.TABLE + " SET portada = ?, precio = ?, stock = ?, titulo = ?, descripcion = ?, contenido = ?, cantidadDeClasificacion = ?, paginas = ?, clasificacion = ?, fk_categoria = ?, fk_autor = ? WHERE id = ?";
+        String sql = "UPDATE " + ControllerLibro.TABLE + " SET portada = ?, precio = ?, stock = ?, titulo = ?, descripcion = ?, contenido = ?, paginas = CAST(? AS INT), clasificacion = CAST(? AS FLOAT), fk_categoria = CAST(? AS INT), fk_autor = CAST(? AS INT) WHERE id = CAST(? AS INT)";
 
         String[] vals = {portada, String.valueOf(precio), String.valueOf(stock), titulo, descripcion, contenido, String.valueOf(paginas), String.valueOf(clasificacion), String.valueOf(fkCategoria), String.valueOf(fkAutor), String.valueOf(libroId)};
 
@@ -75,7 +76,7 @@ public class ControllerEmpleado {
     }
 
     public int eliminarLibroBase(int libroId) throws SQLException {
-        String sql = "DELETE FROM " + ControllerLibro.TABLE + " WHERE id = ?";
+        String sql = "DELETE FROM " + ControllerLibro.TABLE + " WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(libroId)};
 
@@ -93,11 +94,11 @@ public class ControllerEmpleado {
     }
 
     public static int modificarClienteBase(int userId, String correo, String username, String contrasena, String pfp, String sobre) throws SQLException {
-        String sql = "UPDATE " + TABLE + " SET correo = ?, username = ?, contrasena = ?, pfp = ?, sobre = ? WHERE id = ?";
+        String sql = "UPDATE " + TABLE + " SET correo = ?, username = ?, contrasena = ?, pfp = ?, sobre = ? WHERE id = CAST(? AS INT)";
 
         String hash = Hash.hash(contrasena);
 
-        String[] vals = {correo, hash, contrasena, pfp, sobre, String.valueOf(userId)};
+        String[] vals = {correo, username, hash, pfp, sobre, String.valueOf(userId)};
 
         return Database.getInstanse().update(sql, vals);
     }

@@ -102,4 +102,27 @@ public class ControllerVenta {
 
         return "correo: " + correo + "\n" + "titulo: " + titulo + "\n";
     }
+
+    public ArrayList<Venta> selectVentasBase() throws SQLException {
+        String sql = "SELECT * FROM " + TABLE;
+
+        ResultSet resultSet = Database.getInstanse().query(sql);
+
+        ArrayList<Venta> res = new ArrayList<>();
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            int cantidad = resultSet.getInt("cantidad");
+            float total = resultSet.getFloat("total");
+            String estado = resultSet.getString("estado");
+            String metodo = resultSet.getString("metodopago");
+            Date fecha = (Date) resultSet.getObject("fecha");
+            int fkLibro = resultSet.getInt("fk_libro");
+            int fkUsuario = resultSet.getInt("fk_usuario");
+
+            res.add(new Venta(id, cantidad, total, estado, metodo, fecha, fkLibro, fkUsuario));
+        }
+
+        return res;
+    }
 }

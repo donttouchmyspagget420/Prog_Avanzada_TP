@@ -100,6 +100,10 @@ public class ProfileFrame extends JFrame {
         editar.addActionListener(e -> {
             editar();
         });
+
+        System.out.println(textWeapper.getComponentCount());
+        System.out.println(username.getText());
+        System.out.println(correo.getText());
     }
 
     protected ProfileFrame(int profileId) {
@@ -108,7 +112,7 @@ public class ProfileFrame extends JFrame {
         SideBar sideBar = new SideBar();
         JPanel profileWrapper = new JPanel();
 
-        JPanel profileHead = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
+        JPanel profileHead = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         ImagePanel img = new ImagePanel(cliente.getPfp());
         JPanel textWeapper = new JPanel();
         JLabel username = new JLabel(cliente.getUsername());
@@ -198,7 +202,7 @@ public class ProfileFrame extends JFrame {
     private void lecturas() {
         LayoutUtils.removeAllComponents(profileContent);
 
-        final int GAP = 20;
+        final int GAP = 10;
 
         profileContent.setLayout(new FlowLayout(FlowLayout.LEFT, GAP, GAP));
 
@@ -215,7 +219,11 @@ public class ProfileFrame extends JFrame {
                 ticket.setEditable(false);
                 ticket.setFocusable(false);
                 ticket.setLineWrap(true);
-                ticket.setBackground(Color.BLACK);
+                ticket.setBackground(Color.LIGHT_GRAY);
+                ticket.setColumns(15);
+
+                ticket.setFont(new Font("comic size", Font.BOLD, 16));
+                ticket.setForeground(Color.DARK_GRAY);
 
                 profileContent.add(ticket);
             }
@@ -225,7 +233,7 @@ public class ProfileFrame extends JFrame {
     }
 
     private void editar() {
+        StateManager.setPagina((StateManager.paginas) null);
         new ProfileEditFrame();
-        this.dispose();
     }
 }

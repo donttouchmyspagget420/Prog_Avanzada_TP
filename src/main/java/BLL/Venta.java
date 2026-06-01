@@ -13,14 +13,14 @@ public class Venta {
 
     private int id;
     private int cantidad;
-    private double total;
+    private float total;
     private String estado;
     private String metodoPago;
     private Date fecha;
     private int fkLibro;
     private int fkUsuario;
 
-    public Venta(int id, int cantidad, double total, String estado, String metodoPago, Date fecha, int fkLibro, int fkUsuario) {
+    public Venta(int id, int cantidad, float total, String estado, String metodoPago, Date fecha, int fkLibro, int fkUsuario) {
         this.id = id;
         this.cantidad = cantidad;
         this.total = total;
@@ -85,7 +85,44 @@ public class Venta {
         }
     }
 
-    public String generarFactura() {
-        return toString();
+    public static ArrayList<Venta> selectVenta() {
+        try {
+            return controller.selectVentasBase();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "no puede obtener informacion sobre las ventas, razon: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public int getFkLibro() {
+        return fkLibro;
+    }
+
+    public int getFkUsuario() {
+        return fkUsuario;
     }
 }

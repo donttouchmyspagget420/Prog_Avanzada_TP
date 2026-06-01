@@ -5,6 +5,7 @@ import GUI.StateManager;
 import Utils.Validator;
 
 import javax.swing.*;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -45,7 +46,7 @@ public class Empleado extends Usuario {
         return 0;
     }
 
-    public int crearVenta(int cantidad, double total, String estado, String metodoPago, LocalDate fecha, int fkLibro, int fkUsuario) {
+    public int crearVenta(int cantidad, float total, String estado, String metodoPago, Date fecha, int fkLibro, int fkUsuario) {
         int res;
         try {
             res = controller.crearVentaBase(cantidad, total, estado, metodoPago, fecha, fkLibro, fkUsuario);
@@ -57,7 +58,7 @@ public class Empleado extends Usuario {
         return res;
     }
 
-    public int modificarVenta(int ventaId, int cantidad, double total, String estado, String metodoPago, LocalDate fecha, int fkLibro, int fkUsuario) {
+    public int modificarVenta(int ventaId, int cantidad, float total, String estado, String metodoPago, Date fecha, int fkLibro, int fkUsuario) {
         int res;
         try {
             res = controller.modificarVentaBase(ventaId, cantidad, total, estado, metodoPago, fecha, fkLibro, fkUsuario);

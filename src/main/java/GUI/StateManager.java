@@ -8,7 +8,16 @@ import javax.swing.*;
 public abstract class StateManager {
     private static JFrame currentPage;
 
-    public enum paginas {
+    public interface pagina {
+        String frame = "";
+
+
+        default String getFrameName() {
+            return frame;
+        }
+    }
+
+    public enum paginas implements pagina {
         PROFILE("Perfil"),
         HOME("Home"),
         CATALOG("Catálogo"),
@@ -20,10 +29,33 @@ public abstract class StateManager {
             this.frame = frame;
         }
 
+        @Override
+        public String getFrameName() {
+            return pagina.super.getFrameName();
+        }
+    }
+
+
+    public enum paginasEmpleo implements pagina {
+        PROFILE("Perfil"),
+        VENTAS("Ventas"),
+        LIBROS("Libros"),
+        USUARIOS("Usuarios"),
+        COMENTARIOS("Comentarios"),
+        START("Quitar la cuenta");
+
+        private String frame;
+
+        paginasEmpleo(String frame) {
+            this.frame = frame;
+        }
+
+        @Override
         public String getFrameName() {
             return frame;
         }
     }
+
 
     public static void setPagina(paginas pagina) {
         if (currentPage != null) currentPage.dispose();
@@ -33,7 +65,6 @@ public abstract class StateManager {
             case paginas.PROFILE -> currentPage = new ProfileFrame();
             case paginas.START -> {
                 Cliente.setSession(null);
-                Empleado.setSession(null);
                 currentPage = new StartFrame();
             }
             case paginas.HOME -> currentPage = new HomeFrame();
@@ -41,8 +72,30 @@ public abstract class StateManager {
         }
     }
 
+
+    public static void setPagina(paginasEmpleo pagina) {
+        if (currentPage != null) currentPage.dispose();
+        if (pagina == null) return;
+
+        switch (pagina) {
+            case paginasEmpleo.PROFILE -> currentPage = new ProfileFrame();
+            case paginasEmpleo.START -> {
+                Empleado.setSession(null);
+                currentPage = new StartFrame();
+            }
+            case paginasEmpleo.COMENTARIOS -> currentPage = null;
+            case paginasEmpleo.VENTAS -> currentPage = new VerVentasFrame();
+            case paginasEmpleo.USUARIOS -> currentPage = null;
+            case paginasEmpleo.LIBROS -> currentPage = null;
+        }
+    }
+
     public static void setVisible(boolean b) {
         currentPage.setVisible(b);
+    }
+
+    public static JFrame getCurrentPage() {
+        return currentPage;
     }
 
 }

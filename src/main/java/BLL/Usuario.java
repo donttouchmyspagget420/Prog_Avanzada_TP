@@ -61,7 +61,7 @@ public abstract class Usuario {
     }
 
     public String getPfp() {
-        return PlatformManager.getPathImgs() + pfp;
+        return pfp;
     }
 
     public void setPfp(String pfp) {

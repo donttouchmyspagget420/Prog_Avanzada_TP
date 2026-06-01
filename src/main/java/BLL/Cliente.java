@@ -94,6 +94,14 @@ public class Cliente extends Usuario {
 
     public int cambiarProfile(String contrasena, String correo, String username, String nuevaContrasena, String pfp, String sobre) {
         try {
+            if (!Validator.emailValidate(correo)) throw new Exception("correo no es valido");
+
+            if (!Validator.usernameValidate(username))
+                throw new Exception("nombre de usuario debe ser de 3 a 20 caracteres,debe contener");
+
+            if (!Validator.passwordValidate(nuevaContrasena))
+                throw new Exception("contraseña debe ser minimo 8 caracteres y contener una MAYUSCULA, una minuscula y un numero");
+
             if (!Hash.verificar(contrasena, this.getContrasena())) throw new Exception("la contraseña no es correcta");
 
             if (ControllerEmpleado.modificarClienteBase(session.getId(), correo, username, nuevaContrasena, pfp, sobre) <= 0)
@@ -107,6 +115,6 @@ public class Cliente extends Usuario {
             return -1;
         }
 
-        return 1;
+        return 0;
     }
 }

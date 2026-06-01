@@ -1,6 +1,8 @@
 package GUI;
 
 import BLL.Cliente;
+import BLL.Empleado;
+import BLL.Usuario;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -30,11 +32,15 @@ class SideBar extends JPanel {
     }
 
     private void itemsUpdate() {
-        StateManager.paginas[] options = StateManager.paginas.values();
+        StateManager.pagina options[] = null;
+
+        if (Empleado.getSession() != null) options = StateManager.paginasEmpleo.values();
+        if (Cliente.getSession() != null) options = StateManager.paginas.values();
+
         Color bgColor = this.getBackground();
 
-        for (StateManager.paginas option : options) {
-            if (StateManager.paginas.PROFILE == option) {
+        for (StateManager.pagina option : options) {
+            if (StateManager.paginas.PROFILE == option || StateManager.paginasEmpleo.PROFILE == option) {
                 userGet();
                 continue;
             }
@@ -49,7 +55,10 @@ class SideBar extends JPanel {
     }
 
     private void userGet() {
-        Cliente user = Cliente.getSession();
+        Usuario user = null;
+
+        if (Empleado.getSession() != null) user = Empleado.getSession();
+        if (Cliente.getSession() != null) user = Cliente.getSession();
 
         ImagePanel pic = new ImagePanel(user.getPfp());
         ButtonLink name = new ButtonLink(user.getCorreo(), Color.DARK_GRAY);
@@ -60,7 +69,11 @@ class SideBar extends JPanel {
         userWrapper.add(name);
 
         name.addActionListener(e -> {
-            StateManager.setPagina(StateManager.paginas.PROFILE);
+            if (Empleado.getSession() != null) {
+                StateManager.setPagina(StateManager.paginasEmpleo.PROFILE);
+            } else {
+                StateManager.setPagina(StateManager.paginas.PROFILE);
+            }
         });
     }
 }

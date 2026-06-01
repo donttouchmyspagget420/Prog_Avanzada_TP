@@ -19,9 +19,10 @@ public class ProfileEditFrame extends JFrame {
     private JPanel profileContent;
     private Cliente cliente;
 
-    private JTextField username, correo, password, repetir;
+    private JTextField username, correo, password, newPassword;
     private JTextArea sobre;
     private ImagePanel img;
+    private JPanel imgWrapper;
 
     private final int COLUMNS = 3;
 
@@ -32,14 +33,15 @@ public class ProfileEditFrame extends JFrame {
         JPanel profileWrapper = new JPanel();
 
         JPanel profileHead = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
-        JPanel imgWrapper = new JPanel(new BorderLayout());
-        img = new ImagePanel(cliente.getPfp());
         JButton upload = new JButton("Subir");
         JPanel textWeapper = new JPanel();
+
+        imgWrapper = new JPanel(new BorderLayout());
+        img = new ImagePanel(cliente.getPfp());
         username = new JTextField(cliente.getUsername());
         correo = new JTextField(cliente.getCorreo());
         password = new JTextField("contraseña vieja");
-        repetir = new JTextField("contraseña nueva");
+        newPassword = new JTextField("contraseña nueva");
 
         profileContent = new JPanel();
 
@@ -67,7 +69,7 @@ public class ProfileEditFrame extends JFrame {
         textWeapper.add(username);
         textWeapper.add(correo);
         textWeapper.add(password);
-        textWeapper.add(repetir);
+        textWeapper.add(newPassword);
 
         profileWrapper.add(profileHead, BorderLayout.NORTH);
         profileWrapper.add(scrollPane, BorderLayout.CENTER);
@@ -108,7 +110,12 @@ public class ProfileEditFrame extends JFrame {
         profileContent.add(enviar, BorderLayout.SOUTH);
 
         enviar.addActionListener(e -> {
-            cliente.cambiarProfile(password.getText(), correo.getText(), username.getText(), repetir.getText(), img.getPath(), sobre.getText());
+            int res = cliente.cambiarProfile(password.getText(), correo.getText(), username.getText(), newPassword.getText(), img.getPath(), sobre.getText());
+
+            if (res == 0) {
+                StateManager.setPagina(StateManager.paginas.PROFILE);
+                this.dispose();
+            }
         });
     }
 
@@ -133,6 +140,6 @@ public class ProfileEditFrame extends JFrame {
 
         JOptionPane.showMessageDialog(null, "subido exictosamente!");
 
-        img = new ImagePanel(dest.toAbsolutePath().toString());
+        img.setImg(dest.toAbsolutePath().getFileName().toString());
     }
 }

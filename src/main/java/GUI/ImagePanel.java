@@ -1,7 +1,10 @@
 package GUI;
 
+import Utils.PlatformManager;
+
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Path;
 
 public class ImagePanel extends JPanel {
     private Image img;
@@ -9,7 +12,8 @@ public class ImagePanel extends JPanel {
 
     protected ImagePanel(String path) {
         this.path = path;
-        img = new ImageIcon(path).getImage();
+        ;
+        img = new ImageIcon(PlatformManager.getPathImgs() + path).getImage();
 
         setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1, true));
     }
@@ -23,5 +27,13 @@ public class ImagePanel extends JPanel {
         super.paintComponent(g);
 
         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    }
+
+    protected void setImg(String path) {
+        this.path = path;
+
+        img = new ImageIcon(PlatformManager.getPathImgs() + path).getImage();
+
+        repaint();
     }
 }

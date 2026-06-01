@@ -45,7 +45,7 @@ public abstract class Validator {
         if (password.isBlank()) return false;
 
         int len = password.length();
-        if (len > CONSTRAINS.MIN_PASSWORD_SIZE.getValue()) return false;
+        if (len < CONSTRAINS.MIN_PASSWORD_SIZE.getValue()) return false;
 
         int mayuscula = 0, minuscula = 0, numero = 0;
         for (int i = 0; i < len; i++) {

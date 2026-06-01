@@ -77,6 +77,5 @@ public class ControllerCliente {
         return new Cliente(id, correo, username, contrasena, pfp, sobre);
     }
 
-    }
 }
 

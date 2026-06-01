@@ -53,7 +53,7 @@ public class Comment extends JPanel {
         pfp.setPreferredSize(new Dimension(50, 50));
 
         btnUsername.addActionListener(e -> {
-            StateManager.setPagina(null);
+            StateManager.setPagina((StateManager.paginas) null);
             new ProfileFrame(comentario.getFkAutor());
         });
     }
