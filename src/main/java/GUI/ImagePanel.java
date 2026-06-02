@@ -12,7 +12,7 @@ public class ImagePanel extends JPanel {
 
     protected ImagePanel(String path) {
         this.path = path;
-        ;
+
         img = new ImageIcon(PlatformManager.getPathImgs() + path).getImage();
 
         setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1, true));
@@ -29,7 +29,7 @@ public class ImagePanel extends JPanel {
         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
     }
 
-    protected void setImg(String path) {
+    public void setImg(String path) {
         this.path = path;
 
         img = new ImageIcon(PlatformManager.getPathImgs() + path).getImage();

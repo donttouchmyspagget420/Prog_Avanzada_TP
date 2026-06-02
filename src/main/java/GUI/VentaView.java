@@ -10,15 +10,15 @@ public class VentaView extends DataView {
         super("Venta");
 
         crear.addActionListener(e -> {
-            Dialog dialog = new DialogVenta(this);
+            new DialogVenta(this);
 
             StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
         });
     }
 
     @Override
-    protected void showContent(String viewname) {
-        cols = new String[]{"ID", "Cantidad", "Total", "Estado", "MetodoPago", "Fecha", "IDLibro", "IDUsuario", "Modificar la " + viewname, "Eliminar la " + viewname};
+    void showContent(String viewname) {
+        cols = new String[]{"ID", "Cantidad", "Total", "Estado", "MetodoPago", "Fecha", "IDLibro", "IDUsuario", "Modificar " + viewname, "Eliminar " + viewname};
         ArrayList<Venta> arr = Venta.selectVenta();
 
         if (arr == null || arr.size() == 0) {
@@ -30,7 +30,7 @@ public class VentaView extends DataView {
 
         for (int i = 0; i < arr.size(); i++) {
             Venta v = arr.get(i);
-            Object[] obj = {v.getId(), v.getCantidad(), v.getTotal(), v.getEstado(), v.getMetodoPago(), v.getFecha(), v.getFkLibro(), v.getFkUsuario(), "Modificar la " + viewname, "Eliminar la " + viewname};
+            Object[] obj = {v.getId(), v.getCantidad(), v.getTotal(), v.getEstado(), v.getMetodoPago(), v.getFecha(), v.getFkLibro(), v.getFkUsuario(), "Modificar " + viewname, "Eliminar " + viewname};
 
             data[i] = obj;
         }

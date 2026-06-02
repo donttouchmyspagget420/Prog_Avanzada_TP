@@ -8,6 +8,7 @@ import Utils.Validator;
 
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Cliente extends Usuario {
 
@@ -116,5 +117,14 @@ public class Cliente extends Usuario {
         }
 
         return 0;
+    }
+
+    public static ArrayList<Cliente> selectClientes() {
+        try {
+            return controller.selectClientesBase();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "no puede obtener informacion sobre las clientes, razon: " + e.getMessage());
+            return null;
+        }
     }
 }

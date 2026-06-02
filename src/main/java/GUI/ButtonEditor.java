@@ -39,12 +39,23 @@ public class ButtonEditor extends DefaultCellEditor {
             String comm = button.getActionCommand();
 
             switch (comm) {
-                case "Modificar la Venta" ->
-                        Empleado.getSession().modificarVenta((int) jtable.getValueAt(clickedRow, 0), (int) jtable.getValueAt(clickedRow, 1), (float) jtable.getValueAt(clickedRow, 2), (String) jtable.getValueAt(clickedRow, 3), (String) jtable.getValueAt(clickedRow, 4), (Date) jtable.getValueAt(clickedRow, 5), (int) jtable.getValueAt(clickedRow, 6), (int) jtable.getValueAt(clickedRow, 7));
-                case "Eliminar la Venta" -> Empleado.getSession().eliminarVenta((int) jtable.getValueAt(clickedRow, 0));
+                case "Modificar Venta" -> {
+                    Empleado.getSession().modificarVenta((int) jtable.getValueAt(clickedRow, 0), (int) jtable.getValueAt(clickedRow, 1), (float) jtable.getValueAt(clickedRow, 2), (String) jtable.getValueAt(clickedRow, 3), (String) jtable.getValueAt(clickedRow, 4), (Date) jtable.getValueAt(clickedRow, 5), (int) jtable.getValueAt(clickedRow, 6), (int) jtable.getValueAt(clickedRow, 7));
+                    StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
+                }
+                case "Eliminar Venta" -> {
+                    Empleado.getSession().eliminarVenta((int) jtable.getValueAt(clickedRow, 0));
+                    StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
+                }
+                case "Modificar Usuario" -> {
+                    Empleado.getSession().modificarCliente((int) jtable.getValueAt(clickedRow, 0), (String) jtable.getValueAt(clickedRow, 1), (String) jtable.getValueAt(clickedRow, 2), (String) jtable.getValueAt(clickedRow, 3), (String) jtable.getValueAt(clickedRow, 4), (String) jtable.getValueAt(clickedRow, 5));
+                    StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
+                }
+                case "Eliminar Usuario" -> {
+                    Empleado.getSession().eliminarCliente((int) jtable.getValueAt(clickedRow, 0));
+                    StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
+                }
             }
-
-            StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
 
         }
         isPushed = false;

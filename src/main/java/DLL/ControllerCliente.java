@@ -1,10 +1,13 @@
 package DLL;
 
 import BLL.Cliente;
+import BLL.Venta;
 import Utils.Hash;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ControllerCliente {
     protected final static String TABLE = "usuarios";
@@ -77,5 +80,26 @@ public class ControllerCliente {
         return new Cliente(id, correo, username, contrasena, pfp, sobre);
     }
 
+
+    public ArrayList<Cliente> selectClientesBase() throws SQLException {
+        String sql = "SELECT * FROM " + TABLE + " WHERE fk_rol = 1";
+
+        ResultSet resultSet = Database.getInstanse().query(sql);
+
+        ArrayList<Cliente> res = new ArrayList<>();
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String correo = resultSet.getString("correo");
+            String username = resultSet.getString("username");
+            String contrasena = resultSet.getString("contrasena");
+            String pfp = resultSet.getString("pfp");
+            String sobre = resultSet.getString("sobre");
+
+            res.add(new Cliente(id, correo, username, contrasena, pfp, sobre));
+        }
+
+        return res;
+    }
 }
 

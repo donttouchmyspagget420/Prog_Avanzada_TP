@@ -84,11 +84,14 @@ public class ControllerEmpleado {
     }
 
     public int crearClienteBase(String correo, String username, String contrasena, String pfp, String sobre) throws SQLException {
-        String hash = Hash.hash(contrasena);
+        String hash;
 
-        String sql = "INSERT INTO " + ControllerLibro.TABLE + "(correo, username, contrasena, pfp, sobre) VALUES(?,?,?,?,?)";
+        if (!contrasena.matches("^\\$2[aby]\\$\\d{2}\\$.*")) hash = Hash.hash(contrasena);
+        else hash = contrasena;
 
-        String[] vals = {correo, hash, contrasena, pfp, sobre};
+        String sql = "INSERT INTO " + TABLE + "(correo, username, contrasena, pfp, sobre,fk_rol) VALUES(?,?,?,?,?,1)";
+
+        String[] vals = {correo, username, hash, pfp, sobre};
 
         return Database.getInstanse().update(sql, vals);
     }
@@ -96,7 +99,10 @@ public class ControllerEmpleado {
     public static int modificarClienteBase(int userId, String correo, String username, String contrasena, String pfp, String sobre) throws SQLException {
         String sql = "UPDATE " + TABLE + " SET correo = ?, username = ?, contrasena = ?, pfp = ?, sobre = ? WHERE id = CAST(? AS INT)";
 
-        String hash = Hash.hash(contrasena);
+        String hash;
+
+        if (!contrasena.matches("^\\$2[aby]\\$\\d{2}\\$.*")) hash = Hash.hash(contrasena);
+        else hash = contrasena;
 
         String[] vals = {correo, username, hash, pfp, sobre, String.valueOf(userId)};
 
@@ -104,7 +110,7 @@ public class ControllerEmpleado {
     }
 
     public int eliminarClienteBase(int userId) throws SQLException {
-        String sql = "DELETE FROM " + TABLE + " WHERE id = ?";
+        String sql = "DELETE FROM " + TABLE + " WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(userId)};
 

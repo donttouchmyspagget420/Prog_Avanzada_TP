@@ -40,10 +40,6 @@ public abstract class Usuario {
         return correo;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -56,23 +52,11 @@ public abstract class Usuario {
         return contrasena;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
     public String getPfp() {
         return pfp;
     }
 
-    public void setPfp(String pfp) {
-        this.pfp = pfp;
-    }
-
     public String getSobre() {
         return sobre;
-    }
-
-    public void setSobre(String sobre) {
-        this.sobre = sobre;
     }
 }

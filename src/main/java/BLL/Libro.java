@@ -137,6 +137,15 @@ public class Libro {
         }
     }
 
+    public static ArrayList<Libro> selectLibros() {
+        try {
+            return controller.selectLibros();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
     public String getPortada() {
         return portada;
     }

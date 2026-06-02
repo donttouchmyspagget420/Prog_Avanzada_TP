@@ -22,7 +22,7 @@ public abstract class DataView extends JFrame {
         JPanel wrapper = new JPanel();
         JPanel btnWrapper = new JPanel();
 
-        crear = new ButtonLink("Crear una " + viewName, getBackground());
+        crear = new ButtonLink("Crear " + viewName, getBackground());
         if (data != null) table = new JTable(data, cols);
         else {
             DefaultTableModel model = new DefaultTableModel(cols, 0);
@@ -37,11 +37,11 @@ public abstract class DataView extends JFrame {
 
         scrollPane.setBorder(null);
 
-        table.getColumn("Modificar la " + viewName).setCellRenderer(new ButtonRenderer());
-        table.getColumn("Modificar la " + viewName).setCellEditor(new ButtonEditor(new JCheckBox()));
+        table.getColumn("Modificar " + viewName).setCellRenderer(new ButtonRenderer());
+        table.getColumn("Modificar " + viewName).setCellEditor(new ButtonEditor(new JCheckBox()));
 
-        table.getColumn("Eliminar la " + viewName).setCellRenderer(new ButtonRenderer());
-        table.getColumn("Eliminar la " + viewName).setCellEditor(new ButtonEditor(new JCheckBox()));
+        table.getColumn("Eliminar " + viewName).setCellRenderer(new ButtonRenderer());
+        table.getColumn("Eliminar " + viewName).setCellEditor(new ButtonEditor(new JCheckBox()));
 
         btnWrapper.add(crear);
 
@@ -53,8 +53,13 @@ public abstract class DataView extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        setSize(1000, 1000);
         setResizable(false);
+
+        GraphicsDevice gd = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice();
+
+        gd.setFullScreenWindow(this);
     }
 
     abstract void showContent(String viewname);

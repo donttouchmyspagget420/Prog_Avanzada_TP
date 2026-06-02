@@ -24,6 +24,10 @@ public abstract class Dialog extends JDialog {
             this.dispose();
         });
 
-
+        submit.addActionListener(e -> {
+            action();
+        });
     }
+
+    abstract void action();
 }

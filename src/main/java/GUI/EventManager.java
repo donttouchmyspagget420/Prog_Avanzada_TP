@@ -61,6 +61,10 @@ public class EventManager implements ActionListener {
                 StateManager.setVisible(true);
                 BookFrame.getFrame().dispose();
             }
+            case "Ventas" -> StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
+            case "Usuarios" -> StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
+            case "Libros" -> StateManager.setPagina(StateManager.paginasEmpleo.LIBROS);
+            case "Comentarios" -> StateManager.setPagina(StateManager.paginasEmpleo.COMENTARIOS);
         }
     }
 }

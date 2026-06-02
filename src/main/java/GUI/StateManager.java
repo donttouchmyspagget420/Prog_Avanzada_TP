@@ -85,8 +85,8 @@ public abstract class StateManager {
             }
             case paginasEmpleo.COMENTARIOS -> currentPage = null;
             case paginasEmpleo.VENTAS -> currentPage = new VentaView();
-            case paginasEmpleo.USUARIOS -> currentPage = null;
-            case paginasEmpleo.LIBROS -> currentPage = null;
+            case paginasEmpleo.USUARIOS -> currentPage = new UsuarioView();
+            case paginasEmpleo.LIBROS -> currentPage = new LibroView();
         }
     }
 

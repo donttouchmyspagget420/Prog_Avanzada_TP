@@ -85,7 +85,7 @@ public class ProfileEditFrame extends JFrame {
         img.setPreferredSize(new Dimension(200, 200));
 
         upload.addActionListener(e -> {
-            upload();
+            img.setImg(PlatformManager.uploadImg());
         });
     }
 
@@ -117,29 +117,5 @@ public class ProfileEditFrame extends JFrame {
                 this.dispose();
             }
         });
-    }
-
-    private void upload() {
-        JFileChooser fileChooser = new JFileChooser();
-        int res = fileChooser.showOpenDialog(null);
-
-        if (res != JFileChooser.APPROVE_OPTION) return;
-
-        Path file = fileChooser.getSelectedFile().toPath();
-
-        Path save = Paths.get(PlatformManager.getPathImgs());
-
-        Path dest = save.resolve(file.getFileName());
-
-        try {
-            Files.copy(file, dest, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "no puede subir la imagen, razon:" + ex.getMessage());
-            return;
-        }
-
-        JOptionPane.showMessageDialog(null, "subido exictosamente!");
-
-        img.setImg(dest.toAbsolutePath().getFileName().toString());
     }
 }
