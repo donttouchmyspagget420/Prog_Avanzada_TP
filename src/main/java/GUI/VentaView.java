@@ -11,8 +11,6 @@ public class VentaView extends DataView {
 
         crear.addActionListener(e -> {
             new DialogVenta(this);
-
-            StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
         });
     }
 

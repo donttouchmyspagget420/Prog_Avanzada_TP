@@ -36,8 +36,6 @@ public class DialogUsuario extends Dialog {
             img.setImg(PlatformManager.uploadImg());
         });
 
-        img.setVisible(false);
-
         pack();
         setLocationRelativeTo(parent);
         setResizable(false);
@@ -45,7 +43,7 @@ public class DialogUsuario extends Dialog {
     }
 
     @Override
-    protected void action() {
+    void action() {
         String correo, username, contrasena, sobre, path;
 
         correo = correoF.getText();
@@ -55,8 +53,7 @@ public class DialogUsuario extends Dialog {
         path = img.getPath();
 
 
-        Empleado.getSession().crearCliente(correo, username, contrasena, path, sobre);
-
-        StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
+        if (Empleado.getSession().crearCliente(correo, username, contrasena, path, sobre) > 0)
+            StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
     }
 }

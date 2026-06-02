@@ -6,21 +6,24 @@ import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public abstract class Categorias {
+public class Categorias {
     private static ControllerCategoria controller = new ControllerCategoria();
-    private static ArrayList<String> categorias;
+
+    int id;
+    String nombre;
+
+    public Categorias(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
 
     public static ArrayList<String> getCatagorias() {
-        if (categorias != null) return categorias;
-
         try {
-            categorias = controller.getCategoriasBase();
+            return controller.getCategoriasBase();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;
         }
-
-        return categorias;
     }
 
     public static String getNombre(int fkCategoria) {
@@ -30,6 +33,23 @@ public abstract class Categorias {
             JOptionPane.showMessageDialog(null, e.getMessage());
             return null;
         }
+    }
+
+    public static ArrayList<Categorias> selectCategorias() {
+        try {
+            return controller.selectCategoriasBase();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "no puede obtener categorias, razon: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
 }

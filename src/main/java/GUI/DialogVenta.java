@@ -36,10 +36,6 @@ public class DialogVenta extends Dialog {
 
         add(wrapper);
 
-        submit.addActionListener(e -> {
-            action();
-        });
-
         pack();
         setLocationRelativeTo(parent);
         setResizable(false);
@@ -47,7 +43,7 @@ public class DialogVenta extends Dialog {
     }
 
     @Override
-    protected void action() {
+    void action() {
         int cantidad;
         float total;
         String estado;
@@ -69,8 +65,7 @@ public class DialogVenta extends Dialog {
             return;
         }
 
-        Empleado.getSession().crearVenta(cantidad, total, estado, pago, fecha, fkLibro, fkUsuario);
-
-        StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
+        if (Empleado.getSession().crearVenta(cantidad, total, estado, pago, fecha, fkLibro, fkUsuario) > 0)
+            StateManager.setPagina(StateManager.paginasEmpleo.VENTAS);
     }
 }

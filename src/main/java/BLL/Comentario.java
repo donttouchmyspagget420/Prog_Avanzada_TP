@@ -45,16 +45,21 @@ public class Comentario {
     }
 
     public static ArrayList<Comentario> getComentarios(int libroid) {
-        ArrayList<Comentario> res;
-
         try {
-            res = controller.getComentariosBase(libroid);
+            return controller.getComentariosBase(libroid);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
+    }
 
-        return res;
+    public static ArrayList<Comentario> selectComentarios() {
+        try {
+            return controller.selectComentarios();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public int getClasificacion() {
@@ -67,5 +72,13 @@ public class Comentario {
 
     public int getFkAutor() {
         return fkAutor;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getFkLibro() {
+        return fkLibro;
     }
 }

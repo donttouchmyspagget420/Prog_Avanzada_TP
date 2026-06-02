@@ -14,8 +14,6 @@ public class UsuarioView extends DataView {
 
         crear.addActionListener(e -> {
             new DialogUsuario(this);
-
-            StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
         });
 
         table.getColumnModel().getColumn(4).setCellRenderer(new ImageRenderer());

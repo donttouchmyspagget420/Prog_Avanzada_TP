@@ -55,6 +55,30 @@ public class ButtonEditor extends DefaultCellEditor {
                     Empleado.getSession().eliminarCliente((int) jtable.getValueAt(clickedRow, 0));
                     StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
                 }
+                case "Modificar Libro" -> {
+                    Empleado.getSession().modificarLibro((int) jtable.getValueAt(clickedRow, 0), (String) jtable.getValueAt(clickedRow, 1), (float) jtable.getValueAt(clickedRow, 2), (int) jtable.getValueAt(clickedRow, 3), (String) jtable.getValueAt(clickedRow, 4), (String) jtable.getValueAt(clickedRow, 5), (String) jtable.getValueAt(clickedRow, 6), (int) jtable.getValueAt(clickedRow, 7), (float) jtable.getValueAt(clickedRow, 8), (int) jtable.getValueAt(clickedRow, 9));
+                    StateManager.setPagina(StateManager.paginasEmpleo.LIBROS);
+                }
+                case "Eliminar Libro" -> {
+                    Empleado.getSession().eliminarLibro((int) jtable.getValueAt(clickedRow, 0));
+                    StateManager.setPagina(StateManager.paginasEmpleo.LIBROS);
+                }
+                case "Modificar Comentario" -> {
+                    Empleado.getSession().modificarComentario((int) jtable.getValueAt(clickedRow, 0), (int) jtable.getValueAt(clickedRow, 1), (String) jtable.getValueAt(clickedRow, 2), (int) jtable.getValueAt(clickedRow, 3), (int) jtable.getValueAt(clickedRow, 4));
+                    StateManager.setPagina(StateManager.paginasEmpleo.COMENTARIOS);
+                }
+                case "Eliminar Comentario" -> {
+                    Empleado.getSession().eliminarComentario((int) jtable.getValueAt(clickedRow, 0));
+                    StateManager.setPagina(StateManager.paginasEmpleo.COMENTARIOS);
+                }
+                case "Modificar Categoria" -> {
+                    Empleado.getSession().modificarCategoria((int) jtable.getValueAt(clickedRow, 0), (String) jtable.getValueAt(clickedRow, 1));
+                    StateManager.setPagina(StateManager.paginasEmpleo.CATEGORIAS);
+                }
+                case "Eliminar Categoria" -> {
+                    Empleado.getSession().eliminarCategoria((int) jtable.getValueAt(clickedRow, 0));
+                    StateManager.setPagina(StateManager.paginasEmpleo.CATEGORIAS);
+                }
             }
 
         }

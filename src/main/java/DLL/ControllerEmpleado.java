@@ -6,7 +6,6 @@ import Utils.Hash;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class ControllerEmpleado {
     protected final static String TABLE = "usuarios";
@@ -59,18 +58,18 @@ public class ControllerEmpleado {
         return Database.getInstanse().update(sql, vals);
     }
 
-    public int crearLibroBase(String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria, int fkAutor) throws SQLException {
-        String sql = "INSERT INTO " + ControllerLibro.TABLE + "(portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fk_categoria, fk_autor) VALUES(?,CAST(? AS FLOAT),CAST(? AS INT),?,?,?,CAST(? AS INT),CAST(? AS FLOAT),CAST(? AS INT),CAST(? AS INT))";
+    public int crearLibroBase(String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria) throws SQLException {
+        String sql = "INSERT INTO " + ControllerLibro.TABLE + "(portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fk_categoria) VALUES(?,CAST(? AS FLOAT),CAST(? AS INT),?,?,?,CAST(? AS INT),CAST(? AS FLOAT),CAST(? AS INT))";
 
-        String[] vals = {portada, String.valueOf(precio), String.valueOf(stock), titulo, descripcion, contenido, String.valueOf(paginas), String.valueOf(clasificacion), String.valueOf(fkCategoria), String.valueOf(fkAutor)};
+        String[] vals = {portada, String.valueOf(precio), String.valueOf(stock), titulo, descripcion, contenido, String.valueOf(paginas), String.valueOf(clasificacion), String.valueOf(fkCategoria)};
 
         return Database.getInstanse().update(sql, vals);
     }
 
-    public int modificarLibroBase(int libroId, String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria, int fkAutor) throws SQLException {
-        String sql = "UPDATE " + ControllerLibro.TABLE + " SET portada = ?, precio = ?, stock = ?, titulo = ?, descripcion = ?, contenido = ?, paginas = CAST(? AS INT), clasificacion = CAST(? AS FLOAT), fk_categoria = CAST(? AS INT), fk_autor = CAST(? AS INT) WHERE id = CAST(? AS INT)";
+    public int modificarLibroBase(int libroId, String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria) throws SQLException {
+        String sql = "UPDATE " + ControllerLibro.TABLE + " SET portada = ?, precio = CAST(? AS FLOAT), stock = CAST(? AS INT), titulo = ?, descripcion = ?, contenido = ?, paginas = CAST(? AS INT), clasificacion = CAST(? AS FLOAT), fk_categoria = CAST(? AS INT) WHERE id = CAST(? AS INT)";
 
-        String[] vals = {portada, String.valueOf(precio), String.valueOf(stock), titulo, descripcion, contenido, String.valueOf(paginas), String.valueOf(clasificacion), String.valueOf(fkCategoria), String.valueOf(fkAutor), String.valueOf(libroId)};
+        String[] vals = {portada, String.valueOf(precio), String.valueOf(stock), titulo, descripcion, contenido, String.valueOf(paginas), String.valueOf(clasificacion), String.valueOf(fkCategoria), String.valueOf(libroId)};
 
         return Database.getInstanse().update(sql, vals);
     }
@@ -118,7 +117,7 @@ public class ControllerEmpleado {
     }
 
     public int crearComentarioBase(int clasificacion, String contenido, int fkAutor, int fkLibro) throws SQLException {
-        String sql = "INSERT INTO " + ControllerComentario.TABLE + "(clasificacion, contenido, fk_autor, fk_libro) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO " + ControllerComentario.TABLE + "(clasificacion, contenido, fk_autor, fk_libro) VALUES(CAST(? AS INT),?,CAST(? AS INT),CAST(? AS INT))";
 
         String[] vals = {String.valueOf(clasificacion), contenido, String.valueOf(fkAutor), String.valueOf(fkLibro)};
 
@@ -126,7 +125,7 @@ public class ControllerEmpleado {
     }
 
     public int modificarComentarioBase(int commId, int clasificacion, String contenido, int fkAutor, int fkLibro) throws SQLException {
-        String sql = "UPDATE " + ControllerComentario.TABLE + " SET clasificacion = ?, contenido = ?, fk_autor = ?, fk_libro = ? WHERE id = ?";
+        String sql = "UPDATE " + ControllerComentario.TABLE + " SET clasificacion = CAST(? AS INT), contenido = ?, fk_autor = CAST(? AS INT), fk_libro = CAST(? AS INT) WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(clasificacion), contenido, String.valueOf(fkAutor), String.valueOf(fkLibro), String.valueOf(commId)};
 
@@ -134,7 +133,7 @@ public class ControllerEmpleado {
     }
 
     public int eliminarComentarioBBase(int commId) throws SQLException {
-        String sql = "DELETE FROM " + ControllerComentario.TABLE + " WHERE id = ?";
+        String sql = "DELETE FROM " + ControllerComentario.TABLE + " WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(commId)};
 
@@ -142,4 +141,27 @@ public class ControllerEmpleado {
     }
 
 
+    public int crearCategoriaBase(String nombre) throws SQLException {
+        String sql = "INSERT INTO " + ControllerCategoria.TABLE + "(nombre) VALUES(?)";
+
+        String[] vals = {nombre};
+
+        return Database.getInstanse().update(sql, vals);
+    }
+
+    public int modificarCategoriaBase(int catId, String nombre) throws SQLException {
+        String sql = "UPDATE " + ControllerCategoria.TABLE + " SET nombre = ? WHERE id = CAST(? AS INT)";
+
+        String[] vals = {nombre, String.valueOf(catId)};
+
+        return Database.getInstanse().update(sql, vals);
+    }
+
+    public int eliminarCategoriaBBase(int catId) throws SQLException {
+        String sql = "DELETE FROM " + ControllerCategoria.TABLE + " WHERE id = CAST(? AS INT)";
+
+        String[] vals = {String.valueOf(catId)};
+
+        return Database.getInstanse().update(sql, vals);
+    }
 }

@@ -12,8 +12,6 @@ public class LibroView extends DataView {
 
         crear.addActionListener(e -> {
             new DialogLibro(this);
-
-            StateManager.setPagina(StateManager.paginasEmpleo.LIBROS);
         });
 
         table.getColumnModel().getColumn(1).setCellRenderer(new ImageRenderer());
@@ -27,10 +25,7 @@ public class LibroView extends DataView {
         cols = new String[]{"ID", "Portada", "Precio", "Stock", "Titulo", "Descripcion", "Contenido", "Paginas", "clasificacion", "fkCategoria", "Modificar " + viewname, "Eliminar " + viewname};
         ArrayList<Libro> arr = Libro.selectLibros();
 
-        if (arr == null || arr.size() == 0) {
-            this.add(new JLabel("no hay ventas"));
-            return;
-        }
+        if (arr == null || arr.size() == 0) return;
 
         data = new Object[arr.size()][cols.length];
 

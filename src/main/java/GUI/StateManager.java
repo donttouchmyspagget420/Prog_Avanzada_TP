@@ -42,6 +42,7 @@ public abstract class StateManager {
         LIBROS("Libros"),
         USUARIOS("Usuarios"),
         COMENTARIOS("Comentarios"),
+        CATEGORIAS("Categorias"),
         START("Quitar la cuenta");
 
         private String frame;
@@ -83,10 +84,11 @@ public abstract class StateManager {
                 Empleado.setSession(null);
                 currentPage = new StartFrame();
             }
-            case paginasEmpleo.COMENTARIOS -> currentPage = null;
+            case paginasEmpleo.COMENTARIOS -> currentPage = new ComentarioView();
             case paginasEmpleo.VENTAS -> currentPage = new VentaView();
             case paginasEmpleo.USUARIOS -> currentPage = new UsuarioView();
             case paginasEmpleo.LIBROS -> currentPage = new LibroView();
+            case paginasEmpleo.CATEGORIAS -> currentPage = new CategoriaView();
         }
     }
 

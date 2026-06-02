@@ -1,11 +1,13 @@
 package DLL;
 
+import BLL.Categorias;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ControllerCategoria {
-    private static final String TABLE = "categorias";
+    static final String TABLE = "categorias";
 
     public ArrayList<String> getCategoriasBase() throws SQLException {
         String sql = "SELECT nombre FROM " + TABLE;
@@ -33,5 +35,22 @@ public class ControllerCategoria {
         if (!resultSet.next()) return null;
 
         return resultSet.getString("nombre");
+    }
+
+    public ArrayList<Categorias> selectCategoriasBase() throws SQLException {
+        String sql = "SELECT * FROM " + TABLE;
+
+        ResultSet resultSet = Database.getInstanse().query(sql);
+
+        ArrayList<Categorias> res = new ArrayList<>();
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String nombre = resultSet.getString("nombre");
+
+            res.add(new Categorias(id, nombre));
+        }
+
+        return res;
     }
 }

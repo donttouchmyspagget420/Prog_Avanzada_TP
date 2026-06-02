@@ -61,4 +61,24 @@ public class ControllerComentario {
 
         return res;
     }
+
+    public ArrayList<Comentario> selectComentarios() throws SQLException {
+        String sql = "SELECT * FROM " + TABLE;
+
+        ResultSet resultSet = Database.getInstanse().query(sql);
+
+        ArrayList<Comentario> res = new ArrayList<>();
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            int clasificaion = resultSet.getInt("clasificacion");
+            String contenido = resultSet.getString("contenido");
+            int fkAuthor = resultSet.getInt("fk_autor");
+            int fkLibro = resultSet.getInt("fk_libro");
+
+            res.add(new Comentario(id, clasificaion, contenido, fkAuthor, fkLibro));
+        }
+
+        return res;
+    }
 }

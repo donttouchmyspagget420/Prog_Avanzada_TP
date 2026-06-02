@@ -65,6 +65,7 @@ public class EventManager implements ActionListener {
             case "Usuarios" -> StateManager.setPagina(StateManager.paginasEmpleo.USUARIOS);
             case "Libros" -> StateManager.setPagina(StateManager.paginasEmpleo.LIBROS);
             case "Comentarios" -> StateManager.setPagina(StateManager.paginasEmpleo.COMENTARIOS);
+            case "Categorias" -> StateManager.setPagina(StateManager.paginasEmpleo.CATEGORIAS);
         }
     }
 }

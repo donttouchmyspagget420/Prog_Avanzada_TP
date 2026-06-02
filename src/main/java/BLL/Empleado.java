@@ -81,10 +81,10 @@ public class Empleado extends Usuario {
         return res;
     }
 
-    public int crearLibro(String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria, int fkAutor) {
+    public int crearLibro(String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria) {
         int res;
         try {
-            res = controller.crearLibroBase(portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fkCategoria, fkAutor);
+            res = controller.crearLibroBase(portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fkCategoria);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "no puede crear el libro, razon\n" + e.getMessage());
             return -1;
@@ -92,10 +92,10 @@ public class Empleado extends Usuario {
         return res;
     }
 
-    public int modificarLibro(int libroId, String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria, int fkAutor) {
+    public int modificarLibro(int libroId, String portada, float precio, int stock, String titulo, String descripcion, String contenido, int paginas, float clasificacion, int fkCategoria) {
         int res;
         try {
-            res = controller.modificarLibroBase(libroId, portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fkCategoria, fkAutor);
+            res = controller.modificarLibroBase(libroId, portada, precio, stock, titulo, descripcion, contenido, paginas, clasificacion, fkCategoria);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "no puede modificar el libro, razon\n" + e.getMessage());
             return -1;
@@ -175,6 +175,39 @@ public class Empleado extends Usuario {
             res = controller.eliminarComentarioBBase(commId);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "no puede eliminar el comentario, razon\n" + e.getMessage());
+            return -1;
+        }
+        return res;
+    }
+
+    public int crearCategoria(String nombre) {
+        int res;
+        try {
+            res = controller.crearCategoriaBase(nombre);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "no puede crear el categoria, razon\n" + e.getMessage());
+            return -1;
+        }
+        return res;
+    }
+
+    public int modificarCategoria(int catId, String nombre) {
+        int res;
+        try {
+            res = controller.modificarCategoriaBase(catId, nombre);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "no puede modificar el categoria, razon\n" + e.getMessage());
+            return -1;
+        }
+        return res;
+    }
+
+    public int eliminarCategoria(int catId) {
+        int res;
+        try {
+            res = controller.eliminarCategoriaBBase(catId);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "no puede eliminar el categoria, razon\n" + e.getMessage());
             return -1;
         }
         return res;
