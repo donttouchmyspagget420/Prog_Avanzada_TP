@@ -40,7 +40,7 @@ public class Empleado extends Usuario {
 
         if (session == null) return -1;
 
-        StateManager.setPagina(StateManager.paginas.HOME);
+        StateManager.setPagina(StateManager.paginasEmpleo.PROFILE);
         JOptionPane.showMessageDialog(null, "iniciado seccion corectamente!");
 
         return 0;

@@ -48,6 +48,11 @@ public class Cliente extends Usuario {
             return -1;
         }
 
+        if (contrasenaRepetido != contrasena) {
+            JOptionPane.showMessageDialog(null, "contrasenas no coinciden");
+            return -1;
+        }
+
         try {
             session = controller.iniciarSeccionBase(correo, username, contrasena);
         } catch (SQLException e) {

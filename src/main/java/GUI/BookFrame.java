@@ -44,7 +44,7 @@ public class BookFrame extends JFrame {
         ImagePanel cover = new ImagePanel(libro.getPortada());
         JPanel textWrapper = new JPanel();
         JLabel mainTitle = new JLabel(name);
-        ButtonLink categoria = new ButtonLink(category, Color.DARK_GRAY);
+        ButtonLink categoria = new ButtonLink(category);
         JLabel clasification = new JLabel(libro.getClasificacion() + "/10", JLabel.CENTER);
         Button buy = new Button((comprado) ? "Leer el principio" : "Comprar");
         JTextArea description = new JTextArea(libro.getDescripcion());

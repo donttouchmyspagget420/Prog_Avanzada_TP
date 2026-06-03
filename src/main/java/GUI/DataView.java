@@ -22,7 +22,7 @@ public abstract class DataView extends JFrame {
         JPanel wrapper = new JPanel();
         JPanel btnWrapper = new JPanel();
 
-        crear = new ButtonLink("Crear " + viewName, getBackground());
+        crear = new ButtonLink("Crear " + viewName);
         if (data != null) table = new JTable(data, cols);
         else {
             DefaultTableModel model = new DefaultTableModel(cols, 0);

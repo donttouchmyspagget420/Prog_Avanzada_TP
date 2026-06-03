@@ -18,7 +18,7 @@ public class ControllerEmpleado {
 
         ResultSet resultSet = Database.getInstanse().query(sql, vals);
 
-        if (!resultSet.next()) throw new SQLException("results is wrong: loginBase");
+        if (!resultSet.next()) throw new SQLException("correo o contrasena es incorrecto");
 
         String hash = resultSet.getString("contrasena");
 

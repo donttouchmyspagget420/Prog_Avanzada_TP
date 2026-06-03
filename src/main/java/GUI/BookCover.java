@@ -10,7 +10,7 @@ public class BookCover extends JPanel {
         String path = libro.getPortada();
         ImagePanel cover = new ImagePanel(path);
 
-        ButtonLink title = new ButtonLink(libro.getTitulo(), Color.DARK_GRAY);
+        ButtonLink title = new ButtonLink(libro.getTitulo());
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

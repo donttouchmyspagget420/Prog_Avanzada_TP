@@ -18,7 +18,7 @@ public class Comment extends JPanel {
             img = author.get("pfp");
         }
 
-        ButtonLink btnUsername = new ButtonLink(username, Color.DARK_GRAY);
+        ButtonLink btnUsername = new ButtonLink(username);
         JLabel clasificacion = new JLabel(comentario.getClasificacion() + "/10");
         JTextArea content = new JTextArea(comentario.getContenido());
         ImagePanel pfp = new ImagePanel(img);

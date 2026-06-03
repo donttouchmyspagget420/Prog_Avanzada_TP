@@ -4,10 +4,10 @@ import javax.swing.border.Border;
 import java.awt.*;
 
 public class ButtonLink extends Button {
-    ButtonLink(String text, Color bgParent) {
+    ButtonLink(String text) {
         super(text);
 
-        setBackground(bgParent);
+        setBackground(null);
     }
 
     ButtonLink(String text, Color bgParent, Border border) {

@@ -95,7 +95,7 @@ class SideBar extends JPanel {
         if (Cliente.getSession() != null) user = Cliente.getSession();
 
         ImagePanel pic = new ImagePanel(user.getPfp());
-        ButtonLink name = new ButtonLink(user.getCorreo(), Color.DARK_GRAY);
+        ButtonLink name = new ButtonLink(user.getCorreo());
 
         pic.setPreferredSize(new Dimension(35, 35));
 

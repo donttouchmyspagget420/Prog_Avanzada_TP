@@ -31,9 +31,9 @@ public class ProfileFrame extends JFrame {
 
         JPanel headWrapper = new JPanel(new BorderLayout());
         JPanel btnGroupWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 0));
-        ButtonLink sobre = new ButtonLink("Sobre Mí", getBackground());
-        ButtonLink compras = new ButtonLink("Mis Compras", getBackground());
-        ButtonLink lecturas = new ButtonLink("Mis Lecturas", getBackground());
+        ButtonLink sobre = new ButtonLink("Sobre Mí");
+        ButtonLink compras = new ButtonLink("Mis Compras");
+        ButtonLink lecturas = new ButtonLink("Mis Lecturas");
 
         profileContent = new JPanel();
 
