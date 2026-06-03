@@ -233,7 +233,6 @@ public class ProfileFrame extends JFrame {
     }
 
     private void editar() {
-        StateManager.setPagina((StateManager.paginas) null);
-        new ProfileEditFrame();
+        StateManager.setPagina(ProfileEditFrame.class.getName());
     }
 }

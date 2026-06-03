@@ -4,20 +4,12 @@ import BLL.Cliente;
 import BLL.Empleado;
 
 import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class StateManager {
     private static JFrame currentPage;
 
-    public interface pagina {
-        String frame = "";
-
-
-        default String getFrameName() {
-            return frame;
-        }
-    }
-
-    public enum paginas implements pagina {
+    public enum paginas {
         PROFILE("Perfil"),
         HOME("Home"),
         CATALOG("Catálogo"),
@@ -29,14 +21,13 @@ public abstract class StateManager {
             this.frame = frame;
         }
 
-        @Override
         public String getFrameName() {
-            return pagina.super.getFrameName();
+            return frame;
         }
     }
 
 
-    public enum paginasEmpleo implements pagina {
+    public enum paginasEmpleo {
         PROFILE("Perfil"),
         VENTAS("Ventas"),
         LIBROS("Libros"),
@@ -51,7 +42,6 @@ public abstract class StateManager {
             this.frame = frame;
         }
 
-        @Override
         public String getFrameName() {
             return frame;
         }
@@ -96,8 +86,34 @@ public abstract class StateManager {
         currentPage.setVisible(b);
     }
 
-    public static JFrame getCurrentPage() {
-        return currentPage;
+
+    public static void setPagina(String className) {
+        JFrame obj;
+        try {
+            Class<?> frame = Class.forName(className);
+            obj = (JFrame) frame.getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return;
+        } catch (InvocationTargetException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return;
+        } catch (InstantiationException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return;
+        } catch (IllegalAccessException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return;
+        } catch (NoSuchMethodException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            return;
+        }
+
+        if (currentPage != null) currentPage.dispose();
+        currentPage = obj;
     }
 
+    public static JFrame getFrame() {
+        return currentPage;
+    }
 }

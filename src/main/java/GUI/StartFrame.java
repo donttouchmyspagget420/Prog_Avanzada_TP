@@ -1,5 +1,7 @@
 package GUI;
 
+import BLL.Empleado;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,8 @@ class StartFrame extends JFrame {
     private static final String NAME = "StartFrame";
 
     private JPanel wrapper, btnWrapper;
-    private TextField emailField, usernameField, passwordField, repeatPasswordField;
+    private TextField emailField, usernameField;
+    private JPasswordField passwordField, repeatPasswordField;
     private CheckBox empleado;
 
     private boolean isLoginShown;
@@ -15,6 +18,8 @@ class StartFrame extends JFrame {
     private static StartFrame frame;
 
     protected StartFrame() {
+        this.frame = this;
+
         wrapper = new JPanel(new GridLayout(0, 1));
         btnWrapper = new JPanel(new GridLayout(0, 2));
 
@@ -28,15 +33,11 @@ class StartFrame extends JFrame {
         Button showLogin = new Button("Logearse");
         Button showSignUp = new Button("Registrarse");
 
-        showLogin.addActionListener(EventManager.getInstanse());
-        showSignUp.addActionListener(EventManager.getInstanse());
-
         Button next = new Button("próximo");
 
-        next.addActionListener(EventManager.getInstanse());
-
         emailField = new TextField("correo");
-        passwordField = new TextField("contraseña");
+        passwordField = new JPasswordField();
+        passwordField.putClientProperty("JTextField.placeholderText", "contraseña");
 
         repeatPasswordField = null;
 
@@ -68,10 +69,6 @@ class StartFrame extends JFrame {
         setResizable(false);
     }
 
-    public static StartFrame getFrame() {
-        return frame;
-    }
-
     protected void showLogin() {
         if (isLoginShown) return;
 
@@ -88,9 +85,10 @@ class StartFrame extends JFrame {
     protected void showSignUp() {
         if (!isLoginShown || empleado.isSelected()) return;
 
-        usernameField = new TextField("repetir la contraseña");
-        repeatPasswordField = new TextField("nombre de usuario");
+        usernameField = new TextField("nombre de usuario");
+        repeatPasswordField = new JPasswordField();
 
+        repeatPasswordField.putClientProperty("JTextField.placeholderText", "repetir la contraseña");
         wrapper.remove(passwordField);
         wrapper.remove(empleado);
 
@@ -101,6 +99,10 @@ class StartFrame extends JFrame {
 
         isLoginShown = false;
         revalidate();
+    }
+
+    public static StartFrame getFrame() {
+        return frame;
     }
 
     protected String getEmail() {

@@ -3,6 +3,7 @@ package GUI;
 import BLL.Cliente;
 import BLL.Empleado;
 import BLL.Usuario;
+import Utils.PlatformManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,29 +19,26 @@ class SideBar extends JPanel {
 
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
 
-        userWrapper.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         userWrapper.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
 
         setSize(getWidth() / 3, getHeight());
         setBorder(BorderFactory.createMatteBorder(0, 0, 0, 2, Color.LIGHT_GRAY));
         setLayout(new BorderLayout());
 
-        itemsUpdate();
+        if (Empleado.getSession() == null) itemsUpdate();
+        else itemsUpdateEmpleo();
 
         this.add(wrapper, BorderLayout.CENTER);
         this.add(userWrapper, BorderLayout.NORTH);
     }
 
     private void itemsUpdate() {
-        StateManager.pagina options[] = null;
-
-        if (Empleado.getSession() != null) options = StateManager.paginasEmpleo.values();
-        if (Cliente.getSession() != null) options = StateManager.paginas.values();
+        StateManager.paginas options[] = StateManager.paginas.values();
 
         Color bgColor = this.getBackground();
 
-        for (StateManager.pagina option : options) {
-            if (StateManager.paginas.PROFILE == option || StateManager.paginasEmpleo.PROFILE == option) {
+        for (StateManager.paginas option : options) {
+            if (StateManager.paginas.PROFILE == option) {
                 userGet();
                 continue;
             }
@@ -52,6 +50,42 @@ class SideBar extends JPanel {
 
         ButtonLink btn = new ButtonLink("Quitar", bgColor, BorderFactory.createEmptyBorder(10, 0, 10, 100));
         wrapper.add(btn);
+        JToggleButton mode = new JToggleButton("modo oscuro", true);
+
+        mode.addActionListener(e -> {
+            PlatformManager.toggleMode(mode.isSelected());
+        });
+
+        wrapper.add(mode);
+    }
+
+
+    private void itemsUpdateEmpleo() {
+        StateManager.paginasEmpleo options[] = StateManager.paginasEmpleo.values();
+
+        Color bgColor = this.getBackground();
+
+        for (StateManager.paginasEmpleo option : options) {
+            if (StateManager.paginasEmpleo.PROFILE == option) {
+                userGet();
+                continue;
+            }
+
+            ButtonLink btn = new ButtonLink(option.getFrameName(), bgColor, BorderFactory.createEmptyBorder(10, 0, 10, 100));
+
+            wrapper.add(btn);
+        }
+
+        ButtonLink btn = new ButtonLink("Quitar", bgColor, BorderFactory.createEmptyBorder(10, 0, 10, 100));
+        wrapper.add(btn);
+
+        JToggleButton mode = new JToggleButton("modo oscuro", true);
+
+        mode.addActionListener(e -> {
+            PlatformManager.toggleMode(mode.isSelected());
+        });
+
+        wrapper.add(mode);
     }
 
     private void userGet() {
