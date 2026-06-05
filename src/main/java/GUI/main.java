@@ -24,6 +24,6 @@ public class main {
         }
 
         new Database();
-        Cliente.login("usuario69@gmail.com", "Bruh1234");
+        Empleado.login("empleado1@tienda.com", "Bruh1234");
     }
 }

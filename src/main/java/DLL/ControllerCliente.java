@@ -1,6 +1,8 @@
 package DLL;
 
 import BLL.Cliente;
+import BLL.Empleado;
+import BLL.Usuario;
 import BLL.Venta;
 import Utils.Hash;
 
@@ -61,7 +63,7 @@ public class ControllerCliente {
         return new Cliente(id, correo, username, hash, pfp, about);
     }
 
-    public Cliente getClienteByIdBase(int profileId) throws SQLException {
+    public Usuario getClienteByIdBase(int profileId, boolean empleado) throws SQLException {
         String sql = "SELECT * FROM " + TABLE + " WHERE id = CAST(? AS INT)";
 
         String[] vals = {String.valueOf(profileId)};
@@ -77,7 +79,11 @@ public class ControllerCliente {
         String pfp = resultSet.getString("pfp");
         String sobre = resultSet.getString("sobre");
 
-        return new Cliente(id, correo, username, contrasena, pfp, sobre);
+        if (empleado) {
+            return new Empleado(id, correo, username, contrasena, pfp, sobre);
+        } else {
+            return new Cliente(id, correo, username, contrasena, pfp, sobre);
+        }
     }
 
 

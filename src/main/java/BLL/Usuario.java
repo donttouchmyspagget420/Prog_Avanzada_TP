@@ -1,6 +1,11 @@
 package BLL;
 
-import Utils.PlatformManager;
+import DLL.ControllerCliente;
+import DLL.ControllerEmpleado;
+import Utils.Hash;
+import Utils.Validator;
+
+import javax.swing.*;
 
 public abstract class Usuario {
     private int id;
@@ -19,7 +24,7 @@ public abstract class Usuario {
         this.sobre = null;
     }
 
-    protected Usuario(int id, String correo, String username, String contrasena, String pfp, String about) {
+    public Usuario(int id, String correo, String username, String contrasena, String pfp, String about) {
         this.id = id;
         this.correo = correo;
         this.username = username;
@@ -58,5 +63,39 @@ public abstract class Usuario {
 
     public String getSobre() {
         return sobre;
+    }
+
+    public int cambiarProfile(String contrasena, String correo, String username, String nuevaContrasena, String pfp, String sobre, int id, boolean empleado) {
+        ControllerCliente controller = new ControllerCliente();
+        try {
+            if (!Validator.emailValidate(correo)) throw new Exception("correo no es valido");
+
+            if (!Validator.usernameValidate(username))
+                throw new Exception("nombre de usuario debe ser de 3 a 20 caracteres,debe contener");
+
+            if (!Validator.passwordValidate(nuevaContrasena))
+                throw new Exception("contraseña debe ser minimo 8 caracteres y contener una MAYUSCULA, una minuscula y un numero");
+
+            if (!Hash.verificar(contrasena, this.getContrasena())) throw new Exception("la contraseña no es correcta");
+
+            if (ControllerEmpleado.modificarClienteBase(id, correo, username, nuevaContrasena, pfp, sobre) <= 0)
+                throw new Exception("Los datos son incorrectos");
+
+            System.out.println(empleado);
+
+            if (!empleado) {
+                Cliente.setSession((Cliente) controller.getClienteByIdBase(id, false));
+            } else {
+                Empleado.setSession((Empleado) controller.getClienteByIdBase(id, true));
+            }
+
+            if (Empleado.getSession() == null && Cliente.getSession() == null)
+                throw new Exception("Los datos son incorrectos");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "no puede cambiar el perfil, rezon: " + e.getMessage());
+            return -1;
+        }
+
+        return 0;
     }
 }

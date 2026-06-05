@@ -89,40 +89,15 @@ public class Cliente extends Usuario {
         return 0;
     }
 
-    public static Cliente getClienteById(int profileId) {
+    public static Usuario getClienteById(int profileId, boolean empleado) {
         try {
-            return controller.getClienteByIdBase(profileId);
+            return controller.getClienteByIdBase(profileId, empleado);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "No puede obtener informacion, razon:\n" + e.getMessage());
             return null;
         }
     }
 
-    public int cambiarProfile(String contrasena, String correo, String username, String nuevaContrasena, String pfp, String sobre) {
-        try {
-            if (!Validator.emailValidate(correo)) throw new Exception("correo no es valido");
-
-            if (!Validator.usernameValidate(username))
-                throw new Exception("nombre de usuario debe ser de 3 a 20 caracteres,debe contener");
-
-            if (!Validator.passwordValidate(nuevaContrasena))
-                throw new Exception("contraseña debe ser minimo 8 caracteres y contener una MAYUSCULA, una minuscula y un numero");
-
-            if (!Hash.verificar(contrasena, this.getContrasena())) throw new Exception("la contraseña no es correcta");
-
-            if (ControllerEmpleado.modificarClienteBase(session.getId(), correo, username, nuevaContrasena, pfp, sobre) <= 0)
-                throw new Exception("Los datos son incorrectos");
-
-            session = controller.getClienteByIdBase(session.getId());
-
-            if (session == null) throw new Exception("Los datos son incorrectos");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "no puede cambiar el perfil, rezon: " + e.getMessage());
-            return -1;
-        }
-
-        return 0;
-    }
 
     public static ArrayList<Cliente> selectClientes() {
         try {

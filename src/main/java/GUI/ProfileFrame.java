@@ -1,8 +1,6 @@
 package GUI;
 
-import BLL.Cliente;
-import BLL.Libro;
-import BLL.Venta;
+import BLL.*;
 import Utils.LayoutUtils;
 
 import javax.swing.*;
@@ -12,12 +10,16 @@ import java.util.ArrayList;
 public class ProfileFrame extends JFrame {
 
     private JPanel profileContent;
-    private Cliente cliente;
+    private Usuario cliente;
 
     private final int COLUMNS = 3;
 
     protected ProfileFrame() {
-        cliente = Cliente.getSession();
+        if (Cliente.getSession() != null) {
+            cliente = Cliente.getSession();
+        } else if (Empleado.getSession() != null) {
+            cliente = Empleado.getSession();
+        }
 
         SideBar sideBar = new SideBar();
         JPanel profileWrapper = new JPanel();
@@ -100,14 +102,10 @@ public class ProfileFrame extends JFrame {
         editar.addActionListener(e -> {
             editar();
         });
-
-        System.out.println(textWeapper.getComponentCount());
-        System.out.println(username.getText());
-        System.out.println(correo.getText());
     }
 
     protected ProfileFrame(int profileId) {
-        cliente = Cliente.getClienteById(profileId);
+        cliente = Cliente.getClienteById(profileId, false);
 
         SideBar sideBar = new SideBar();
         JPanel profileWrapper = new JPanel();

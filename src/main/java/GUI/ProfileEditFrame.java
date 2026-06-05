@@ -2,6 +2,7 @@ package GUI;
 
 import BLL.Cliente;
 import BLL.Empleado;
+import BLL.Usuario;
 import Utils.Hash;
 import Utils.LayoutUtils;
 import Utils.PlatformManager;
@@ -17,7 +18,7 @@ import java.nio.file.StandardCopyOption;
 
 public class ProfileEditFrame extends JFrame {
     private JPanel profileContent;
-    private Cliente cliente;
+    private Usuario cliente;
 
     private JTextField username, correo, password, newPassword;
     private JTextArea sobre;
@@ -27,7 +28,11 @@ public class ProfileEditFrame extends JFrame {
     private final int COLUMNS = 3;
 
     protected ProfileEditFrame() {
-        cliente = Cliente.getSession();
+        if (Cliente.getSession() != null) {
+            cliente = Cliente.getSession();
+        } else if (Empleado.getSession() != null) {
+            cliente = Empleado.getSession();
+        }
 
         SideBar sideBar = new SideBar();
         JPanel profileWrapper = new JPanel();
@@ -110,7 +115,7 @@ public class ProfileEditFrame extends JFrame {
         profileContent.add(enviar, BorderLayout.SOUTH);
 
         enviar.addActionListener(e -> {
-            int res = cliente.cambiarProfile(password.getText(), correo.getText(), username.getText(), newPassword.getText(), img.getPath(), sobre.getText());
+            int res = cliente.cambiarProfile(password.getText(), correo.getText(), username.getText(), newPassword.getText(), img.getPath(), sobre.getText(), cliente.getId(), (cliente instanceof Empleado));
 
             if (res == 0) {
                 StateManager.setPagina(StateManager.paginas.PROFILE);
