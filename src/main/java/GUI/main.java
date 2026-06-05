@@ -24,6 +24,6 @@ public class main {
         }
 
         new Database();
-        Empleado.login("empleado1@tienda.com", "Bruh1234");
+        StateManager.setPagina(StateManager.paginas.START);
     }
 }

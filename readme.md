@@ -6,4 +6,5 @@
 <li>JBcrypt</li>
 <li>FlatLaf</li>
 <li>Java 21 o mas</li>
+<li>Maven para compilar(opcional)</li>
 </ul>
